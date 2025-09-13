@@ -443,7 +443,21 @@ const SellProduce = () => {
 
           {selectedTab === 'active' && (
             <>
-              {activeListings.map((listing) => (
+              {activeListings.length === 0 ? (
+                <div className="text-center py-12">
+                  <div className="text-6xl mb-4">📦</div>
+                  <h3 className="text-lg font-bold text-gray-900 mb-2">No Active Listings</h3>
+                  <p className="text-gray-600 mb-4">You don't have any active listings yet.</p>
+                  <Button 
+                    onClick={() => setSelectedTab('create')}
+                    className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-xl"
+                  >
+                    <Plus className="w-4 h-4 mr-2" />
+                    Create Your First Listing
+                  </Button>
+                </div>
+              ) : (
+                activeListings.map((listing) => (
                 <Card key={listing.id} className="bg-white rounded-2xl shadow-sm border border-gray-100">
                   <CardContent className="p-4">
                     {/* Mobile Layout: Vertical Stack */}
@@ -477,13 +491,28 @@ const SellProduce = () => {
                     </div>
                   </CardContent>
                 </Card>
-              ))}
+                ))
+              )}
             </>
           )}
 
           {selectedTab === 'sold' && (
             <>
-              {soldListings.map((listing) => (
+              {soldListings.length === 0 ? (
+                <div className="text-center py-12">
+                  <div className="text-6xl mb-4">💰</div>
+                  <h3 className="text-lg font-bold text-gray-900 mb-2">No Sales Yet</h3>
+                  <p className="text-gray-600 mb-4">You haven't sold any items yet.</p>
+                  <Button 
+                    onClick={() => setSelectedTab('create')}
+                    className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-xl"
+                  >
+                    <Plus className="w-4 h-4 mr-2" />
+                    Create Your First Listing
+                  </Button>
+                </div>
+              ) : (
+                soldListings.map((listing) => (
                 <Card key={listing.id} className="bg-white rounded-2xl shadow-sm border border-gray-100">
                   <CardContent className="p-4">
                     {/* Mobile Layout: Vertical Stack */}
@@ -506,10 +535,23 @@ const SellProduce = () => {
                     </div>
                   </CardContent>
                 </Card>
-              ))}
+                ))
+              )}
             </>
           )}
         </div>
+
+        {/* Floating Action Button - Only show on Active and Sold tabs */}
+        {(selectedTab === 'active' || selectedTab === 'sold') && (
+          <div className="fixed bottom-24 right-6 z-20">
+            <Button
+              onClick={() => setSelectedTab('create')}
+              className="w-14 h-14 rounded-full bg-green-500 hover:bg-green-600 shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
+            >
+              <Plus className="w-6 h-6 text-white" />
+            </Button>
+          </div>
+        )}
 
       </div>
 
