@@ -152,8 +152,8 @@ const Home = () => {
       title: 'Order Fertilizers',
       subtitle: 'Shop nutrients',
       icon: ShoppingCart,
-      bgColor: 'bg-orange-50',
-      iconColor: 'text-orange-600',
+      bgColor: 'bg-green-50',
+      iconColor: 'text-green-600',
       action: () => navigate('/shop')
     },
     {
@@ -161,8 +161,8 @@ const Home = () => {
       title: 'Nearby Shops',
       subtitle: 'Find agri stores',
       icon: MapPin,
-      bgColor: 'bg-agri-light-purple',
-      iconColor: 'text-agri-purple',
+      bgColor: 'bg-green-50',
+      iconColor: 'text-green-600',
       action: () => navigate('/shops')
     },
     {
