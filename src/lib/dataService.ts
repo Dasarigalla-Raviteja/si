@@ -40,6 +40,9 @@ export interface DiagnosisRecord {
   treatment: string;
   date: string;
   createdAt: string;
+  status?: 'active' | 'completed' | 'discontinued';
+  treatmentStartDate?: string;
+  treatmentEndDate?: string;
 }
 
 export interface AdvisoryRecord {
@@ -67,6 +70,7 @@ export interface UserStats {
   totalViews: number;
   avgRating: number;
   diagnosisCount: number;
+  activeTreatments: number;
   advisorySaved: number;
   level: string;
   joinedDate: string;
@@ -243,6 +247,19 @@ class DataService {
       const totalViews = listings.reduce((sum, listing) => sum + listing.views, 0);
       const successfulSales = soldListings.length;
 
+      // Calculate active treatments (diagnoses that are still being treated)
+      const activeTreatments = diagnoses.filter(d => {
+        if (d.status === 'active') return true;
+        if (!d.status) {
+          // If no status is set, consider treatments from last 30 days as potentially active
+          const diagnosisDate = new Date(d.createdAt || d.date);
+          const thirtyDaysAgo = new Date();
+          thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+          return diagnosisDate > thirtyDaysAgo;
+        }
+        return false;
+      }).length;
+
       // Calculate level based on activity
       let level = 'New Farmer';
       if (successfulSales >= 50 && totalEarnings >= 100000) {
@@ -268,6 +285,7 @@ class DataService {
         totalViews,
         avgRating,
         diagnosisCount: diagnoses.length,
+        activeTreatments,
         advisorySaved: advisories.length,
         level,
         joinedDate: user?.joinedDate || new Date().toISOString()
@@ -281,6 +299,7 @@ class DataService {
         totalViews: 0,
         avgRating: 4.0,
         diagnosisCount: 0,
+        activeTreatments: 0,
         advisorySaved: 0,
         level: 'New Farmer',
         joinedDate: new Date().toISOString()

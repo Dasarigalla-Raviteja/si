@@ -231,7 +231,7 @@ const Profile = () => {
                 <Activity className="w-5 h-5 text-white" />
               </div>
               <div>
-                <div className="text-lg font-semibold text-gray-900">{stats.diagnosisCount}</div>
+                <div className="text-lg font-semibold text-gray-900">{stats.activeTreatments}</div>
                 <div className="text-sm text-gray-600">Active Treatments</div>
               </div>
             </div>
@@ -301,7 +301,7 @@ const Profile = () => {
             icon={FileText}
             title="Sales Report"
             subtitle={`₹${(stats.totalEarnings/1000).toFixed(0)}K earned`}
-            onClick={() => navigate('/reports')}
+            onClick={() => navigate('/sell?tab=sold')}
             rightElement={<ChevronRight className="w-5 h-5 text-gray-400" />}
           />
           <MenuItem
