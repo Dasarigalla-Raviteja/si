@@ -201,38 +201,46 @@ const Home = () => {
   return (
     <div className="mobile-container bg-gradient-to-br from-green-50 via-emerald-50 to-lime-50 min-h-screen">
       {/* Header */}
-      <div className="bg-gradient-to-r from-white to-green-50 px-6 py-5 shadow-sm backdrop-blur-sm">
-        <div className="flex items-center space-x-4">
-          <div className="w-12 h-12 bg-agri-primary rounded-2xl flex items-center justify-center">
-            <Sprout className="w-7 h-7 text-white" />
-          </div>
-          <div className="flex-1">
-            <h1 className="text-2xl font-bold text-text-secondary">KisanMitra</h1>
-            <p className="text-base text-agri-primary font-medium">
-              {getGreeting()}, {userName} Ji!
-            </p>
-          </div>
-        </div>
-        
-        <div className="flex items-center justify-end space-x-3 mt-4">
-          <LanguageSwitcher />
-          
-          <button 
-            onClick={() => setShowNotifications(true)}
-            className="relative p-3 hover:bg-gray-100 rounded-full transition-colors active:scale-95 z-10"
-          >
-            <Bell className="w-7 h-7 text-agri-gray" />
-            <div className="absolute -top-1 -right-1 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center animate-pulse z-10">
-              <span className="text-sm font-bold text-white">3</span>
+      <div className="bg-green-50 px-4 py-4 shadow-sm">
+        <div className="flex items-center justify-between">
+          {/* Left side - Logo and Greeting */}
+          <div className="flex items-center space-x-3">
+            <img 
+              src="/assets/kisanmitra-logo.jpg" 
+              alt="KisanMitra Logo" 
+              className="w-10 h-10 rounded-lg object-contain"
+            />
+            <div>
+              <p className="text-lg font-semibold text-green-800">
+                Good Morning, Raviteja Ji!
+              </p>
             </div>
-          </button>
+          </div>
+          
+          {/* Right side - Controls */}
+          <div className="flex items-center space-x-2">
+            {/* Language Toggle */}
+            <LanguageSwitcher />
+            
+            {/* Notification Bell */}
+            <button 
+              onClick={() => setShowNotifications(true)}
+              className="relative p-2 hover:bg-green-100 rounded-full transition-colors"
+            >
+              <Bell className="w-6 h-6 text-green-700" />
+              <div className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center">
+                <span className="text-xs font-bold text-white">3</span>
+              </div>
+            </button>
 
-          <button 
-            onClick={() => navigate('/profile')}
-            className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-green-600 rounded-full flex items-center justify-center text-white text-lg font-bold shadow-lg transition-all duration-200 active:scale-95 hover:shadow-xl"
-          >
-            {userName.charAt(0).toUpperCase()}
-          </button>
+            {/* Profile Icon */}
+            <button 
+              onClick={() => navigate('/profile')}
+              className="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center text-white text-sm font-semibold shadow-md hover:bg-green-700 transition-colors"
+            >
+              R
+            </button>
+          </div>
         </div>
       </div>
 
