@@ -3,7 +3,6 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { NotificationProvider } from "@/hooks/useNotifications";
-import { TranslationProvider } from "@/contexts/TranslationContext";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect } from "react";
 import { StatusBar, Style } from '@capacitor/status-bar';
@@ -84,10 +83,9 @@ const App = () => {
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <NotificationProvider>
-        <TranslationProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/splash" element={<Splash />} />
@@ -125,8 +123,7 @@ const App = () => {
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
-          </BrowserRouter>
-        </TranslationProvider>
+      </BrowserRouter>
       </NotificationProvider>
     </TooltipProvider>
   </QueryClientProvider>

@@ -10,18 +10,23 @@ import {
   Download
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useTranslation } from '@/contexts/TranslationContext';
 
 const OrderSuccess = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { t } = useTranslation();
   const orderData = location.state;
   const orderId = orderData?.orderId || 'ORD' + Date.now();
   const order = orderData?.order;
   const selectedAddress = orderData?.selectedAddress;
 
-  // Removed auto-redirect - let user choose when to navigate
+  useEffect(() => {
+    // Auto redirect to orders page after 10 seconds
+    const timer = setTimeout(() => {
+      navigate('/orders');
+    }, 10000);
+
+    return () => clearTimeout(timer);
+  }, [navigate]);
 
   return (
     <div className="mobile-container bg-green-50">
@@ -36,20 +41,20 @@ const OrderSuccess = () => {
 
         {/* Success Message */}
         <div className="space-y-3">
-          <h1 className="text-2xl font-bold text-green-800">{t('orderPlaced')}</h1>
-          <p className="text-green-600">{t('thankYou')}</p>
+          <h1 className="text-2xl font-bold text-green-800">Order Placed Successfully!</h1>
+          <p className="text-green-600">Thank you for your order. We'll take care of your farming needs.</p>
         </div>
 
         {/* Order Details */}
         <div className="bg-white rounded-2xl p-6 shadow-sm border border-green-200 w-full max-w-sm">
           <div className="space-y-4">
             <div className="text-center">
-              <p className="text-sm text-gray-500">{t('orderId')}</p>
+              <p className="text-sm text-gray-500">Order ID</p>
               <p className="font-mono text-lg font-semibold text-gray-900">#{orderId}</p>
               {order && (
                 <div className="mt-2">
-                  <p className="text-sm text-gray-600">{t('total')}: <span className="font-semibold text-green-600">₹{order.total}</span></p>
-                  <p className="text-xs text-gray-500">{order.items.length} {t('items')}</p>
+                  <p className="text-sm text-gray-600">Total: <span className="font-semibold text-green-600">₹{order.total}</span></p>
+                  <p className="text-xs text-gray-500">{order.items.length} items</p>
                 </div>
               )}
             </div>
@@ -59,24 +64,24 @@ const OrderSuccess = () => {
                 <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mx-auto mb-2">
                   <Package className="w-6 h-6 text-green-600" />
                 </div>
-                <p className="text-xs text-gray-500">{t('processing')}</p>
-                <p className="text-sm font-medium text-green-600">{t('inProgress')}</p>
+                <p className="text-xs text-gray-500">Processing</p>
+                <p className="text-sm font-medium text-green-600">In Progress</p>
               </div>
 
               <div>
                 <div className="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center mx-auto mb-2">
                   <Truck className="w-6 h-6 text-gray-400" />
                 </div>
-                <p className="text-xs text-gray-500">{t('shipping')}</p>
-                <p className="text-sm font-medium text-gray-400">{t('pending')}</p>
+                <p className="text-xs text-gray-500">Shipping</p>
+                <p className="text-sm font-medium text-gray-400">Pending</p>
               </div>
 
               <div>
                 <div className="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center mx-auto mb-2">
                   <CheckCircle className="w-6 h-6 text-gray-400" />
                 </div>
-                <p className="text-xs text-gray-500">{t('delivered')}</p>
-                <p className="text-sm font-medium text-gray-400">{t('pending')}</p>
+                <p className="text-xs text-gray-500">Delivered</p>
+                <p className="text-sm font-medium text-gray-400">Pending</p>
               </div>
             </div>
           </div>
@@ -89,8 +94,8 @@ const OrderSuccess = () => {
               <Clock className="w-5 h-5 text-blue-600" />
             </div>
             <div>
-              <p className="font-medium text-gray-900">{t('estimatedDelivery')}</p>
-              <p className="text-sm text-blue-600">{t('tomorrowBy6PM')}</p>
+              <p className="font-medium text-gray-900">Estimated Delivery</p>
+              <p className="text-sm text-blue-600">Tomorrow by 6:00 PM</p>
             </div>
           </div>
         </div>
@@ -102,7 +107,7 @@ const OrderSuccess = () => {
               <MapPin className="w-5 h-5 text-green-600" />
             </div>
             <div>
-              <p className="font-medium text-gray-900">{t('deliveryAddress')}</p>
+              <p className="font-medium text-gray-900">Delivery Address</p>
               <p className="text-sm text-gray-600">
                 {selectedAddress ? selectedAddress.address : order?.address || 'Village Rampur, Dist. Hardoi, UP 241001'}
               </p>
@@ -117,7 +122,7 @@ const OrderSuccess = () => {
             className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl"
           >
             <Package className="w-5 h-5 mr-2" />
-            {t('viewMyOrders')}
+            Track Your Order
           </Button>
 
           <Button 
@@ -125,9 +130,16 @@ const OrderSuccess = () => {
             variant="outline"
             className="w-full border-green-600 text-green-600 hover:bg-green-50 py-3 rounded-xl"
           >
-            {t('continueShopping')}
+            Continue Shopping
           </Button>
 
+          <button 
+            onClick={() => navigate('/orders')}
+            className="w-full flex items-center justify-center space-x-2 text-green-600 hover:text-green-700 py-2"
+          >
+            <Download className="w-4 h-4" />
+            <span className="text-sm">Download Invoice</span>
+          </button>
         </div>
 
         {/* Support Info */}
@@ -135,12 +147,16 @@ const OrderSuccess = () => {
           <div className="flex items-center space-x-3">
             <Phone className="w-5 h-5 text-blue-600" />
             <div>
-              <p className="font-medium text-blue-800">{t('needHelp')}</p>
-              <p className="text-sm text-blue-600">{t('callUs')}</p>
+              <p className="font-medium text-blue-800">Need Help?</p>
+              <p className="text-sm text-blue-600">Call us at 1800-123-4567</p>
             </div>
           </div>
         </div>
 
+        {/* Auto Redirect Info */}
+        <p className="text-xs text-gray-500">
+          Redirecting to orders page in 10 seconds...
+        </p>
       </div>
     </div>
   );

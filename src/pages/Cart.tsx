@@ -14,11 +14,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { cartManager, CartItem } from '@/lib/cart';
-import { useTranslation } from '@/contexts/TranslationContext';
 
 const Cart = () => {
   const navigate = useNavigate();
-  const { t } = useTranslation();
   const [promoCode, setPromoCode] = useState('');
   const [appliedPromo, setAppliedPromo] = useState('');
   
@@ -65,19 +63,19 @@ const Cart = () => {
             <button onClick={() => navigate('/shop')}>
               <ArrowLeft className="w-6 h-6 text-gray-700" />
             </button>
-            <h1 className="text-xl font-bold text-text-secondary">{t('cart')}</h1>
+            <h1 className="text-xl font-bold text-text-secondary">Cart</h1>
           </div>
         </div>
 
         <div className="mobile-content flex flex-col items-center justify-center min-h-[60vh]">
           <ShoppingBag className="w-24 h-24 text-gray-300 mb-6" />
-          <h2 className="text-xl font-bold text-gray-900 mb-2">{t('cartEmpty')}</h2>
-          <p className="text-gray-500 mb-8 text-center">{t('addProducts')}</p>
+          <h2 className="text-xl font-bold text-gray-900 mb-2">Your cart is empty</h2>
+          <p className="text-gray-500 mb-8 text-center">Add some products to get started</p>
           <Button 
             onClick={() => navigate('/shop')}
             className="bg-green-600 hover:bg-green-700 text-white px-8 py-3"
           >
-            {t('continueShopping')}
+            Continue Shopping
           </Button>
         </div>
       </div>
@@ -92,7 +90,7 @@ const Cart = () => {
           <button onClick={() => navigate('/shop')}>
             <ArrowLeft className="w-6 h-6 text-gray-700" />
           </button>
-          <h1 className="text-xl font-bold text-text-secondary">{t('cart')} ({cartItems.length})</h1>
+          <h1 className="text-xl font-bold text-text-secondary">Cart ({cartItems.length})</h1>
         </div>
       </div>
 
@@ -217,11 +215,11 @@ const Cart = () => {
 
         {/* Order Summary */}
         <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-          <h3 className="font-semibold text-gray-900 mb-4">{t('orderSummary')}</h3>
+          <h3 className="font-semibold text-gray-900 mb-4">Order Summary</h3>
           
           <div className="space-y-3">
             <div className="flex justify-between">
-              <span className="text-gray-600">{t('subtotal')} ({cartItems.reduce((sum, item) => sum + item.quantity, 0)} items)</span>
+              <span className="text-gray-600">Subtotal ({cartItems.reduce((sum, item) => sum + item.quantity, 0)} items)</span>
               <span className="font-medium">₹{subtotal}</span>
             </div>
             
@@ -234,13 +232,13 @@ const Cart = () => {
             
             {discount > 0 && (
               <div className="flex justify-between text-green-600">
-                <span>{t('discount')}</span>
+                <span>Promo discount</span>
                 <span className="font-medium">-₹{discount}</span>
               </div>
             )}
             
             <div className="flex justify-between">
-              <span className="text-gray-600">{t('delivery')} fee</span>
+              <span className="text-gray-600">Delivery fee</span>
               <span className={`font-medium ${deliveryFee === 0 ? 'text-green-600' : ''}`}>
                 {deliveryFee === 0 ? 'FREE' : `₹${deliveryFee}`}
               </span>
@@ -248,7 +246,7 @@ const Cart = () => {
             
             <div className="border-t pt-3">
               <div className="flex justify-between items-center">
-                <span className="text-lg font-bold text-gray-900">{t('total')}</span>
+                <span className="text-lg font-bold text-gray-900">Total</span>
                 <span className="text-xl font-bold text-green-600">₹{total}</span>
               </div>
             </div>
@@ -281,7 +279,7 @@ const Cart = () => {
           }}
           className="w-full bg-green-600 hover:bg-green-700 text-white py-4 rounded-xl text-lg font-semibold"
         >
-          {t('proceedToCheckout')} • ₹{total}
+          Proceed to Checkout • ₹{total}
         </Button>
       </div>
     </div>

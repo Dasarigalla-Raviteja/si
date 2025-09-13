@@ -1,4 +1,4 @@
-import { useTranslation } from '@/contexts/TranslationContext';
+import { useState } from 'react';
 
 const languages = [
   { code: 'en', name: 'English', flag: '🇬🇧', short: 'EN' },
@@ -6,16 +6,16 @@ const languages = [
 ];
 
 const LanguageSwitcher = () => {
-  const { language, setLanguage } = useTranslation();
+  const [selectedLanguage, setSelectedLanguage] = useState('en');
 
   return (
     <div className="flex items-center bg-white/90 backdrop-blur-sm rounded-full p-1 shadow-sm border border-green-100">
       {languages.map((lang) => {
-        const isSelected = language === lang.code;
+        const isSelected = selectedLanguage === lang.code;
         return (
           <button
             key={lang.code}
-            onClick={() => setLanguage(lang.code as 'en' | 'hi')}
+            onClick={() => setSelectedLanguage(lang.code)}
             className={`
               px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ease-in-out flex items-center space-x-1
               ${
