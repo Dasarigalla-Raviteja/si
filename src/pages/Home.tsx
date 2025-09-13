@@ -470,7 +470,7 @@ const Home = () => {
               </CardContent>
             </Card>
             
-            <Card className="cursor-pointer active:scale-95 transition-transform rounded-2xl shadow-md border-0 bg-gradient-to-r from-emerald-100/90 to-teal-100/90 hover:shadow-lg backdrop-blur-sm" onClick={() => navigate('/guides')}>
+            <Card className="cursor-pointer active:scale-95 transition-transform rounded-2xl shadow-md border-0 bg-gradient-to-r from-green-100/90 to-emerald-100/90 hover:shadow-lg backdrop-blur-sm" onClick={() => navigate('/guides')}>
               <CardContent className="p-4">
                 <div className="flex items-center space-x-4">
                   <div className="w-12 h-12 bg-gradient-to-br from-emerald-200 to-emerald-300 rounded-xl flex items-center justify-center shadow-md">
