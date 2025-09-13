@@ -1017,6 +1017,15 @@ if __name__ == '__main__':
         print("Warning: Gemini API key not found in environment variables - chat will use fallback responses")
     
     # Run the Flask app
-    port = int(os.environ.get('PORT', 8000))  # Use port 8000 to avoid conflict with frontend
-    debug_mode = os.environ.get('FLASK_ENV') != 'production'
+    # In production on Replit, use port 5000 (single server for both API and static files)
+    # In development, use port 8000 to avoid conflict with Vite dev server on 5000
+    is_production = os.environ.get('FLASK_ENV') == 'production'
+    port = int(os.environ.get('PORT', 5000 if is_production else 8000))
+    debug_mode = not is_production
+    
+    if is_production:
+        print("🚀 Starting production server on port 5000 - serving both API and static files")
+    else:
+        print("🔧 Starting development server on port 8000")
+    
     app.run(host='0.0.0.0', port=port, debug=debug_mode)
