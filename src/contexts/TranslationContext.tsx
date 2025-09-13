@@ -62,6 +62,15 @@ const translations = {
     orderId: 'Order ID',
     estimatedDelivery: 'Estimated Delivery',
     viewMyOrders: 'View My Orders',
+    processing: 'Processing',
+    inProgress: 'In Progress',
+    shipping: 'Shipping',
+    pending: 'Pending',
+    delivered: 'Delivered',
+    needHelp: 'Need Help?',
+    callUs: 'Call us at 1800-123-4567',
+    items: 'items',
+    tomorrowBy6PM: 'Tomorrow by 6:00 PM',
     
     // Soil Health
     soilHealthTool: 'Soil Health Tool',
@@ -169,6 +178,15 @@ const translations = {
     orderId: 'ऑर्डर आईडी',
     estimatedDelivery: 'अनुमानित डिलीवरी',
     viewMyOrders: 'मेरे ऑर्डर देखें',
+    processing: 'प्रसंस्करण',
+    inProgress: 'चल रहा है',
+    shipping: 'शिपिंग',
+    pending: 'लंबित',
+    delivered: 'वितरित',
+    needHelp: 'मदद चाहिए?',
+    callUs: 'हमें कॉल करें 1800-123-4567',
+    items: 'वस्तुएं',
+    tomorrowBy6PM: 'कल शाम 6:00 बजे तक',
     
     // Soil Health
     soilHealthTool: 'मिट्टी स्वास्थ्य उपकरण',
@@ -226,14 +244,24 @@ interface TranslationContextType {
 const TranslationContext = createContext<TranslationContextType | undefined>(undefined);
 
 export const TranslationProvider = ({ children }: { children: ReactNode }) => {
-  const [language, setLanguage] = useState<'en' | 'hi'>('en');
+  const [language, setLanguage] = useState<'en' | 'hi'>(() => {
+    // Get saved language from localStorage or default to English
+    const savedLanguage = localStorage.getItem('kisanmitra_language');
+    return (savedLanguage as 'en' | 'hi') || 'en';
+  });
 
   const t = (key: string): string => {
     return translations[language][key as keyof typeof translations['en']] || key;
   };
 
+  // Save language preference when it changes
+  const handleLanguageChange = (lang: 'en' | 'hi') => {
+    setLanguage(lang);
+    localStorage.setItem('kisanmitra_language', lang);
+  };
+
   return (
-    <TranslationContext.Provider value={{ language, setLanguage, t }}>
+    <TranslationContext.Provider value={{ language, setLanguage: handleLanguageChange, t }}>
       {children}
     </TranslationContext.Provider>
   );

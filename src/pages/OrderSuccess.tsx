@@ -48,8 +48,8 @@ const OrderSuccess = () => {
               <p className="font-mono text-lg font-semibold text-gray-900">#{orderId}</p>
               {order && (
                 <div className="mt-2">
-                  <p className="text-sm text-gray-600">Total: <span className="font-semibold text-green-600">₹{order.total}</span></p>
-                  <p className="text-xs text-gray-500">{order.items.length} items</p>
+                  <p className="text-sm text-gray-600">{t('total')}: <span className="font-semibold text-green-600">₹{order.total}</span></p>
+                  <p className="text-xs text-gray-500">{order.items.length} {t('items')}</p>
                 </div>
               )}
             </div>
@@ -59,24 +59,24 @@ const OrderSuccess = () => {
                 <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mx-auto mb-2">
                   <Package className="w-6 h-6 text-green-600" />
                 </div>
-                <p className="text-xs text-gray-500">Processing</p>
-                <p className="text-sm font-medium text-green-600">In Progress</p>
+                <p className="text-xs text-gray-500">{t('processing')}</p>
+                <p className="text-sm font-medium text-green-600">{t('inProgress')}</p>
               </div>
 
               <div>
                 <div className="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center mx-auto mb-2">
                   <Truck className="w-6 h-6 text-gray-400" />
                 </div>
-                <p className="text-xs text-gray-500">Shipping</p>
-                <p className="text-sm font-medium text-gray-400">Pending</p>
+                <p className="text-xs text-gray-500">{t('shipping')}</p>
+                <p className="text-sm font-medium text-gray-400">{t('pending')}</p>
               </div>
 
               <div>
                 <div className="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center mx-auto mb-2">
                   <CheckCircle className="w-6 h-6 text-gray-400" />
                 </div>
-                <p className="text-xs text-gray-500">Delivered</p>
-                <p className="text-sm font-medium text-gray-400">Pending</p>
+                <p className="text-xs text-gray-500">{t('delivered')}</p>
+                <p className="text-sm font-medium text-gray-400">{t('pending')}</p>
               </div>
             </div>
           </div>
@@ -90,7 +90,7 @@ const OrderSuccess = () => {
             </div>
             <div>
               <p className="font-medium text-gray-900">{t('estimatedDelivery')}</p>
-              <p className="text-sm text-blue-600">Tomorrow by 6:00 PM</p>
+              <p className="text-sm text-blue-600">{t('tomorrowBy6PM')}</p>
             </div>
           </div>
         </div>
@@ -135,8 +135,8 @@ const OrderSuccess = () => {
           <div className="flex items-center space-x-3">
             <Phone className="w-5 h-5 text-blue-600" />
             <div>
-              <p className="font-medium text-blue-800">Need Help?</p>
-              <p className="text-sm text-blue-600">Call us at 1800-123-4567</p>
+              <p className="font-medium text-blue-800">{t('needHelp')}</p>
+              <p className="text-sm text-blue-600">{t('callUs')}</p>
             </div>
           </div>
         </div>
