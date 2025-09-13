@@ -473,14 +473,14 @@ const Home = () => {
             <Card className="cursor-pointer active:scale-95 transition-transform rounded-2xl shadow-md border-0 bg-gradient-to-r from-green-100/90 to-emerald-100/90 hover:shadow-lg backdrop-blur-sm" onClick={() => navigate('/guides')}>
               <CardContent className="p-4">
                 <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-emerald-200 to-emerald-300 rounded-xl flex items-center justify-center shadow-md">
-                    <Sprout className="w-6 h-6 text-emerald-800" />
+                  <div className="w-12 h-12 bg-gradient-to-br from-green-200 to-green-300 rounded-xl flex items-center justify-center shadow-md">
+                    <Sprout className="w-6 h-6 text-green-800" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="font-bold text-emerald-900 text-base mb-1">Cultivation Guides</h3>
-                    <p className="text-emerald-800 text-sm">Growing tips</p>
+                    <h3 className="font-bold text-green-900 text-base mb-1">Cultivation Guides</h3>
+                    <p className="text-green-800 text-sm">Growing tips</p>
                   </div>
-                  <ChevronRight className="w-5 h-5 text-emerald-700" />
+                  <ChevronRight className="w-5 h-5 text-green-700" />
                 </div>
               </CardContent>
             </Card>
