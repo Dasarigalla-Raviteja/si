@@ -10,8 +10,6 @@ import { SplashScreen } from '@capacitor/splash-screen';
 import { Keyboard } from '@capacitor/keyboard';
 import { App as CapacitorApp } from '@capacitor/app';
 import { Capacitor } from '@capacitor/core';
-import { TranslationProvider } from '@/contexts/TranslationContext';
-import VoiceIntegrationExample from '@/components/VoiceIntegrationExample';
 import Landing from "./pages/Landing";
 import Splash from "./pages/Splash";
 import Onboarding from "./pages/Onboarding";
@@ -85,10 +83,9 @@ const App = () => {
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <NotificationProvider>
-        <TranslationProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/splash" element={<Splash />} />
@@ -123,12 +120,10 @@ const App = () => {
           <Route path="/my-fertilizer-guidance" element={<MyFertilizerGuidance />} />
           <Route path="/mitra" element={<Mitra />} />
           <Route path="/notifications" element={<Notifications />} />
-          <Route path="/voice-example" element={<VoiceIntegrationExample />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
-          </BrowserRouter>
-        </TranslationProvider>
+      </BrowserRouter>
       </NotificationProvider>
     </TooltipProvider>
   </QueryClientProvider>

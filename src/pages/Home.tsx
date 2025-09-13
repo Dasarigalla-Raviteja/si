@@ -39,49 +39,15 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { weatherService, WeatherData } from '@/lib/weather';
 import { marketData } from '@/lib/marketData';
-import VoiceButton from '@/components/VoiceButton';
-import { useTranslation } from '@/contexts/TranslationContext';
 
 const Home = () => {
   const navigate = useNavigate();
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [weatherLoading, setWeatherLoading] = useState(true);
-  const { t } = useTranslation();
   
   // Get user data
   const userData = JSON.parse(localStorage.getItem('kisanmitra_user') || '{}');
   const userName = userData.name || 'Farmer';
-
-  // Voice command handler
-  const handleVoiceCommand = (category: string, originalCommand: string) => {
-    console.log(`Voice command received: ${category} - "${originalCommand}"`);
-    
-    switch (category) {
-      case 'weather':
-        navigate('/weather');
-        break;
-      case 'prices':
-        navigate('/market-prices');
-        break;
-      case 'help':
-        navigate('/advisory');
-        break;
-      case 'diagnosis':
-        navigate('/diagnose');
-        break;
-      case 'shop':
-        navigate('/shop');
-        break;
-      case 'soil':
-        navigate('/soil-health');
-        break;
-      case 'mitra':
-        navigate('/mitra');
-        break;
-      default:
-        console.log('Command not handled:', category);
-    }
-  };
   
   // Get time-based greeting
   const getGreeting = () => {
@@ -279,26 +245,6 @@ const Home = () => {
             </button>
           </div>
         </div>
-      </div>
-
-      {/* Voice Support Section */}
-      <div className="px-4 py-4 bg-gradient-to-r from-green-100 to-emerald-100">
-        <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm">
-          <CardContent className="p-4">
-            <div className="text-center mb-4">
-              <h3 className="text-lg font-bold text-green-800 mb-2">🎙️ आवाज़ सहायता</h3>
-              <p className="text-sm text-green-600">अपनी आवाज़ से ऐप को नियंत्रित करें</p>
-            </div>
-            <VoiceButton
-              onCommand={handleVoiceCommand}
-              welcomeMessage={`नमस्ते ${userName}! मैं आपकी सहायता के लिए यहाँ हूं। आप मौसम, कीमत, मदद, या दुकान कह सकते हैं।`}
-              autoWelcome={false}
-              size="md"
-              showRepeatButton={true}
-              className="w-full"
-            />
-          </CardContent>
-        </Card>
       </div>
 
       {/* Content */}
