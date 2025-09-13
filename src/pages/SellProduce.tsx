@@ -362,12 +362,12 @@ const SellProduce = () => {
 
       {/* Top Section - Mobile Optimized Tabs and Earnings */}
       <div className="px-4 py-4">
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center justify-between mb-4 min-h-[48px]">
           {/* Tabs - Mobile Sized */}
-          <div className="flex bg-white rounded-2xl p-1 shadow-sm border">
+          <div className="flex bg-white rounded-2xl p-1 shadow-sm border h-12">
             <button
               onClick={() => setSelectedTab('create')}
-              className={`px-3 py-2.5 rounded-xl font-bold text-sm transition-all ${
+              className={`px-3 py-2 rounded-xl font-bold text-sm transition-all flex items-center justify-center ${
                 selectedTab === 'create'
                   ? 'bg-green-500 text-white shadow-sm'
                   : 'text-gray-600 hover:text-green-600'
@@ -377,7 +377,7 @@ const SellProduce = () => {
             </button>
             <button
               onClick={() => setSelectedTab('active')}
-              className={`px-3 py-2.5 rounded-xl font-bold text-sm transition-all ${
+              className={`px-3 py-2 rounded-xl font-bold text-sm transition-all flex items-center justify-center ${
                 selectedTab === 'active'
                   ? 'bg-green-500 text-white shadow-sm'
                   : 'text-gray-600 hover:text-green-600'
@@ -387,7 +387,7 @@ const SellProduce = () => {
             </button>
             <button
               onClick={() => setSelectedTab('sold')}
-              className={`px-3 py-2.5 rounded-xl font-bold text-sm transition-all ${
+              className={`px-3 py-2 rounded-xl font-bold text-sm transition-all flex items-center justify-center ${
                 selectedTab === 'sold'
                   ? 'bg-green-500 text-white shadow-sm'
                   : 'text-gray-600 hover:text-green-600'
@@ -398,18 +398,18 @@ const SellProduce = () => {
           </div>
 
           {/* Counts and Earnings Display */}
-          <div className="flex space-x-3">
-            <div className="text-center bg-blue-50 px-3 py-2 rounded-xl border border-blue-200">
-              <p className="text-xs text-blue-600 font-medium">Active</p>
-              <p className="text-lg font-bold text-blue-700">{activeListings.length}</p>
+          <div className="flex space-x-2">
+            <div className="text-center bg-blue-50 px-2 py-1.5 rounded-xl border border-blue-200 min-w-[50px]">
+              <p className="text-xs text-blue-600 font-medium leading-none">Active</p>
+              <p className="text-base font-bold text-blue-700 mt-0.5">{activeListings.length}</p>
             </div>
-            <div className="text-center bg-orange-50 px-3 py-2 rounded-xl border border-orange-200">
-              <p className="text-xs text-orange-600 font-medium">Sold</p>
-              <p className="text-lg font-bold text-orange-700">{soldListings.length}</p>
+            <div className="text-center bg-orange-50 px-2 py-1.5 rounded-xl border border-orange-200 min-w-[50px]">
+              <p className="text-xs text-orange-600 font-medium leading-none">Sold</p>
+              <p className="text-base font-bold text-orange-700 mt-0.5">{soldListings.length}</p>
             </div>
-            <div className="text-center bg-green-50 px-3 py-2 rounded-xl border border-green-200">
-              <p className="text-xs text-green-600 font-medium">Earned</p>
-              <p className="text-lg font-bold text-green-700">₹{totalEarnings.toLocaleString()}</p>
+            <div className="text-center bg-green-50 px-2 py-1.5 rounded-xl border border-green-200 min-w-[60px]">
+              <p className="text-xs text-green-600 font-medium leading-none">Earned</p>
+              <p className="text-xs font-bold text-green-700 mt-0.5">₹{totalEarnings.toLocaleString()}</p>
             </div>
           </div>
         </div>
