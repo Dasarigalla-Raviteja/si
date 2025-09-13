@@ -13,7 +13,8 @@ import {
   Truck,
   Shield,
   Zap,
-  Sparkles
+  Sparkles,
+  Sprout
 } from 'lucide-react';
 import { cartManager } from '@/lib/cart';
 
@@ -48,7 +49,7 @@ const Shop = () => {
   const categories = [
     { id: 'all', name: 'All Products', icon: Package },
     { id: 'fertilizers', name: 'Fertilizers', icon: Zap },
-    { id: 'seeds', name: 'Seeds', icon: Package },
+    { id: 'seeds', name: 'Seeds', icon: Sprout },
     { id: 'pesticides', name: 'Pesticides', icon: Shield },
     { id: 'tools', name: 'Tools', icon: Package }
   ];
@@ -253,23 +254,17 @@ const Shop = () => {
                 className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-200"
               >
                 <div className="flex space-x-4">
-                  {/* Product Image & Labels */}
-                  <div className="relative flex-shrink-0">
-                    <div className="w-24 h-24 bg-gray-100 rounded-2xl flex items-center justify-center">
-                      <Package className="w-10 h-10 text-gray-400" />
-                    </div>
-                    
-                    {/* Labels */}
-                    <div className="absolute -top-2 -right-2 space-y-1">
-                      {product.bestseller && (
-                        <div className="bg-orange-500 text-white text-xs px-2 py-1 rounded-full shadow-lg font-medium">
-                          Bestseller
-                        </div>
-                      )}
-                      {product.organic && (
-                        <div className="bg-green-500 text-white text-xs px-2 py-1 rounded-full shadow-lg font-medium">
-                          Organic
-                        </div>
+                  {/* Product Icon */}
+                  <div className="flex-shrink-0">
+                    <div className="w-24 h-24 bg-gradient-to-br from-green-50 to-green-100 rounded-2xl flex items-center justify-center border border-green-200">
+                      {product.category === 'fertilizers' ? (
+                        <Zap className="w-10 h-10 text-green-600" />
+                      ) : product.category === 'seeds' ? (
+                        <Sprout className="w-10 h-10 text-green-600" />
+                      ) : product.category === 'pesticides' ? (
+                        <Shield className="w-10 h-10 text-green-600" />
+                      ) : (
+                        <Package className="w-10 h-10 text-green-600" />
                       )}
                     </div>
                   </div>

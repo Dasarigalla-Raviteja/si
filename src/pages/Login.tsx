@@ -74,10 +74,37 @@ const Login = () => {
           localStorage.setItem('kisanmitra_user', JSON.stringify(userData));
           localStorage.setItem('kisanmitra_auth_token', expectedToken); // Save auth token
           
-          toast({
+          const welcomeToast = toast({
             title: `Welcome back, ${userData.name}! 🌾`,
             description: "Successfully logged in",
+            duration: 10000, // Auto-dismiss after 10 seconds
           });
+          
+          // Dismiss on any interaction
+          let isToastDismissed = false;
+          const handleInteraction = () => {
+            if (!isToastDismissed) {
+              isToastDismissed = true;
+              welcomeToast.dismiss();
+              cleanupListeners();
+            }
+          };
+          
+          const cleanupListeners = () => {
+            document.removeEventListener('click', handleInteraction);
+            document.removeEventListener('keydown', handleInteraction);
+            document.removeEventListener('touchstart', handleInteraction);
+          };
+          
+          document.addEventListener('click', handleInteraction);
+          document.addEventListener('keydown', handleInteraction);
+          document.addEventListener('touchstart', handleInteraction);
+          
+          // Cleanup listeners after 10 seconds (when toast auto-dismisses)
+          setTimeout(() => {
+            isToastDismissed = true;
+            cleanupListeners();
+          }, 10000);
           navigate('/home');
         } else {
           // Wrong PIN for existing user
@@ -101,10 +128,37 @@ const Login = () => {
         localStorage.setItem('kisanmitra_user', JSON.stringify(newUser));
         localStorage.setItem('kisanmitra_auth_token', expectedToken); // Save auth token
         
-        toast({
+        const welcomeToast = toast({
           title: `Welcome to KisanMitra! 🌾`,
           description: "Account created successfully",
+          duration: 10000, // Auto-dismiss after 10 seconds
         });
+        
+        // Dismiss on any interaction
+        let isToastDismissed = false;
+        const handleInteraction = () => {
+          if (!isToastDismissed) {
+            isToastDismissed = true;
+            welcomeToast.dismiss();
+            cleanupListeners();
+          }
+        };
+        
+        const cleanupListeners = () => {
+          document.removeEventListener('click', handleInteraction);
+          document.removeEventListener('keydown', handleInteraction);
+          document.removeEventListener('touchstart', handleInteraction);
+        };
+        
+        document.addEventListener('click', handleInteraction);
+        document.addEventListener('keydown', handleInteraction);
+        document.addEventListener('touchstart', handleInteraction);
+        
+        // Cleanup listeners after 10 seconds (when toast auto-dismisses)
+        setTimeout(() => {
+          isToastDismissed = true;
+          cleanupListeners();
+        }, 10000);
         navigate('/home');
       }
       setLoading(false);
@@ -124,12 +178,16 @@ const Login = () => {
         {/* Top Bar */}
         <div className="flex items-center justify-between p-4 bg-white/80 backdrop-blur-sm">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-agri-primary rounded-xl flex items-center justify-center">
-              <Sprout className="w-6 h-6 text-white" />
+            <div className="w-12 h-12 bg-white rounded-2xl shadow-md flex items-center justify-center p-1">
+              <img 
+                src="/assets/kisanmitra-logo-clean.png" 
+                alt="KisanMitra Logo" 
+                className="w-full h-full object-contain"
+              />
             </div>
             <div>
-              <h1 className="text-lg font-bold text-agri-primary">KisanMitra</h1>
-              <p className="text-xs text-agri-gray">Smart Farming Assistant</p>
+              <h1 className="text-lg font-bold text-green-900">KisanMitra</h1>
+              <p className="text-xs text-green-700">Smart Farming Assistant</p>
             </div>
           </div>
           <LanguageSwitcher />

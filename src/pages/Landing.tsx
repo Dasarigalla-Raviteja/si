@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-import { Sprout } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import farmerHero from '@/assets/farmer-hero.jpg';
@@ -20,14 +19,18 @@ const Landing = () => {
         <header className="flex items-center justify-between py-6">
           {/* Logo and Tagline */}
           <div className="flex items-center space-x-3">
-            <div className="w-14 h-14 bg-gradient-to-br from-green-500 to-emerald-600 rounded-3xl flex items-center justify-center shadow-lg">
-              <Sprout className="w-8 h-8 text-white" />
+            <div className="w-16 h-16 bg-white rounded-2xl shadow-md flex items-center justify-center p-1">
+              <img 
+                src="/assets/kisanmitra-logo-clean.png" 
+                alt="KisanMitra Logo" 
+                className="w-full h-full object-contain"
+              />
             </div>
             <div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
+              <h1 className="text-2xl font-bold text-green-900 leading-tight">
                 KisanMitra
               </h1>
-              <p className="text-sm text-gray-600 font-medium">
+              <p className="text-sm text-green-700 font-medium leading-tight">
                 Smart Farming Assistant
               </p>
             </div>
