@@ -1,193 +1,121 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
-import { ArrowLeft, Plus, Eye, Bookmark, Droplets, Beaker, Leaf, Wheat, TreePine, TestTube2, AlertCircle, CheckCircle, Info, X, Save } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-
-interface SoilTest {
-  id: string;
-  date: string;
-  pH: { value: number; status: 'acidic' | 'neutral' | 'alkaline' };
-  nitrogen: { value: string; status: 'low' | 'medium' | 'high' };
-  phosphorus: { value: string; status: 'low' | 'medium' | 'high' };
-  potassium: { value: string; status: 'low' | 'medium' | 'high' };
-  moisture: { value: string; status: 'low' | 'adequate' | 'high' };
-  recommendation: string;
-  detailedGuidance: {
-    fertilizer: string;
-    crops: string[];
-    irrigation: string;
-  };
-  expanded: boolean;
-}
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Slider } from "@/components/ui/slider";
+import { ArrowLeft, TestTube2, Calculator } from 'lucide-react';
 
 const SoilHealth = () => {
   const navigate = useNavigate();
-  const [showAddForm, setShowAddForm] = useState(false);
   
-  // Sample soil test data - latest first
-  const [soilTests, setSoilTests] = useState<SoilTest[]>([
-    {
-      id: '1',
-      date: 'Sept 5, 2025',
-      pH: { value: 6.8, status: 'neutral' },
-      nitrogen: { value: 'Medium', status: 'medium' },
-      phosphorus: { value: 'Low', status: 'low' },
-      potassium: { value: 'High', status: 'high' },
-      moisture: { value: 'Adequate', status: 'adequate' },
-      recommendation: 'Apply Phosphorus fertilizer 40kg/acre',
-      detailedGuidance: {
-        fertilizer: 'Apply DAP fertilizer 40kg/acre before sowing. Add organic compost 2 tons/acre for better soil health.',
-        crops: ['🌾 Wheat', '🌾 Barley', '🌻 Mustard', '🥔 Potato'],
-        irrigation: 'Drip irrigation twice weekly. Maintain 70% soil moisture during flowering stage.'
-      },
-      expanded: false
-    },
-    {
-      id: '2',
-      date: 'Aug 28, 2025',
-      pH: { value: 5.8, status: 'acidic' },
-      nitrogen: { value: 'High', status: 'high' },
-      phosphorus: { value: 'Medium', status: 'medium' },
-      potassium: { value: 'Low', status: 'low' },
-      moisture: { value: 'Low', status: 'low' },
-      recommendation: 'Apply Lime 200kg/acre to balance pH',
-      detailedGuidance: {
-        fertilizer: 'Apply lime 200kg/acre. Add Potash fertilizer 30kg/acre. Use organic manure 1.5 tons/acre.',
-        crops: ['🌽 Maize', '🌾 Rice', '🥜 Groundnut', '🌿 Green gram'],
-        irrigation: 'Increase watering frequency. Use sprinkler irrigation daily during dry season.'
-      },
-      expanded: false
-    },
-    {
-      id: '3',
-      date: 'Aug 15, 2025',
-      pH: { value: 7.2, status: 'alkaline' },
-      nitrogen: { value: 'Low', status: 'low' },
-      phosphorus: { value: 'High', status: 'high' },
-      potassium: { value: 'Medium', status: 'medium' },
-      moisture: { value: 'High', status: 'high' },
-      recommendation: 'Apply Nitrogen fertilizer and reduce watering',
-      detailedGuidance: {
-        fertilizer: 'Apply Urea 50kg/acre in split doses. Add organic compost to improve soil structure.',
-        crops: ['🌾 Wheat', '🌻 Sunflower', '🌿 Soybean', '🥬 Cabbage'],
-        irrigation: 'Reduce watering frequency. Monitor soil moisture to prevent waterlogging.'
-      },
-      expanded: false
-    }
-  ]);
+  // State for soil parameters
+  const [pH, setPH] = useState([6.5]); // Default 6.5
+  const [moisture, setMoisture] = useState("Medium");
+  const [organicMatter, setOrganicMatter] = useState("Moderate");
+  const [showResults, setShowResults] = useState(false);
 
-  const [formData, setFormData] = useState({
-    soilTexture: '',
-    soilColor: '',
-    moisture: '',
-    cropHistory: '',
-    fertilizerHistory: '',
-    pH: '',
-    nitrogen: '',
-    phosphorus: '',
-    potassium: '',
-    moistureLevel: ''
-  });
+  /**
+   * Soil Health Scoring Logic (Weighted System)
+   * Total possible score: 6 points
+   * - pH: 0-2 points
+   * - Moisture: 0-2 points  
+   * - Organic Matter: 0-2 points
+   */
+  const calculateSoilHealth = () => {
+    let score = 0;
+    const pHValue = pH[0];
 
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case 'low': return <AlertCircle className="w-4 h-4 text-red-500" />;
-      case 'medium': case 'adequate': case 'neutral': return <CheckCircle className="w-4 h-4 text-green-500" />;
-      case 'high': return <CheckCircle className="w-4 h-4 text-blue-500" />;
-      case 'acidic': return <AlertCircle className="w-4 h-4 text-red-500" />;
-      case 'alkaline': return <Info className="w-4 h-4 text-blue-500" />;
-      default: return <CheckCircle className="w-4 h-4 text-green-500" />;
+    // pH Scoring: 6-7.5 = 2 points, 5.5-6 or 7.5-8 = 1 point, outside = 0 points
+    if (pHValue >= 6.0 && pHValue <= 7.5) {
+      score += 2;
+    } else if ((pHValue >= 5.5 && pHValue < 6.0) || (pHValue > 7.5 && pHValue <= 8.0)) {
+      score += 1;
+    } else {
+      score += 0;
     }
+
+    // Moisture Scoring: Medium = 2 points, Dry/Wet = 1 point, otherwise 0
+    // Interpreting as: Medium (40-70%) = 2 points, Dry/Wet (30-40% or 70-80%) = 1 point
+    if (moisture === "Medium") {
+      score += 2;
+    } else if (moisture === "Dry" || moisture === "Wet") {
+      score += 1;
+    }
+
+    // Organic Matter Scoring: Good = 2 points, Moderate = 1 point, Poor = 0 points
+    if (organicMatter === "Good") {
+      score += 2;
+    } else if (organicMatter === "Moderate") {
+      score += 1;
+    } else {
+      score += 0;
+    }
+
+    return score;
   };
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'low': case 'acidic': return 'text-red-600 bg-red-50 border-red-200';
-      case 'medium': case 'adequate': case 'neutral': return 'text-green-600 bg-green-50 border-green-200';
-      case 'high': case 'alkaline': return 'text-blue-600 bg-blue-50 border-blue-200';
-      default: return 'text-gray-600 bg-gray-50 border-gray-200';
-    }
-  };
-
-  const toggleExpanded = (testId: string) => {
-    setSoilTests(prev => prev.map(test => 
-      test.id === testId ? { ...test, expanded: !test.expanded } : test
-    ));
-  };
-
-  const saveGuidance = (testId: string) => {
-    const test = soilTests.find(t => t.id === testId);
-    if (test) {
-      // Save to Advisory -> My Soil Guidance
-      const savedGuidance = {
-        id: testId,
-        date: test.date,
-        summary: test.recommendation,
-        detailed: test.detailedGuidance,
-        saved: new Date().toLocaleDateString()
+  /**
+   * Get soil health status and recommendations based on total score
+   * 5-6 points = Healthy
+   * 3-4 points = Moderate  
+   * 0-2 points = Poor
+   */
+  const getSoilHealthStatus = (score: number) => {
+    if (score >= 5) {
+      return {
+        status: "Healthy",
+        color: "text-green-600",
+        bgColor: "bg-green-50",
+        borderColor: "border-green-200",
+        recommendation: "Soil is healthy. Maintain current practices.",
+        details: [
+          "Continue current soil management practices",
+          "Monitor soil conditions regularly",
+          "Maintain proper crop rotation",
+          "Keep up organic matter levels"
+        ]
       };
-      
-      // In real app, this would save to localStorage or API
-      alert(`✅ Soil guidance saved successfully!\n\nSaved to: Advisory → My Soil Guidance\nTest Date: ${test.date}\nRecommendation: ${test.recommendation}`);
+    } else if (score >= 3) {
+      return {
+        status: "Moderate", 
+        color: "text-yellow-600",
+        bgColor: "bg-yellow-50",
+        borderColor: "border-yellow-200",
+        recommendation: "Soil health is moderate. Consider irrigation adjustment and adding organic matter.",
+        details: [
+          "Adjust irrigation frequency based on moisture levels",
+          "Add organic compost or manure",
+          "Consider pH correction if needed",
+          "Implement cover cropping"
+        ]
+      };
+    } else {
+      return {
+        status: "Poor",
+        color: "text-red-600", 
+        bgColor: "bg-red-50",
+        borderColor: "border-red-200",
+        recommendation: "Soil health is poor. Add compost/organic matter, adjust irrigation, and correct pH.",
+        details: [
+          "Add 2-3 tons organic compost per acre",
+          "Correct pH using lime (if acidic) or sulfur (if alkaline)",
+          "Improve drainage or irrigation system",
+          "Consider soil testing for detailed analysis"
+        ]
+      };
     }
   };
 
-  const handleAddTest = () => {
-    if (!formData.soilTexture || !formData.moisture) {
-      alert('Please fill in required fields: Soil Texture and Moisture');
-      return;
-    }
-
-    const newTest: SoilTest = {
-      id: Date.now().toString(),
-      date: new Date().toLocaleDateString('en-US', { 
-        month: 'short', 
-        day: 'numeric', 
-        year: 'numeric' 
-      }),
-      pH: { 
-        value: parseFloat(formData.pH) || 6.5, 
-        status: parseFloat(formData.pH) < 6.0 ? 'acidic' : parseFloat(formData.pH) > 7.0 ? 'alkaline' : 'neutral' 
-      },
-      nitrogen: { 
-        value: formData.nitrogen || 'Medium', 
-        status: (formData.nitrogen?.toLowerCase() === 'low' ? 'low' : formData.nitrogen?.toLowerCase() === 'high' ? 'high' : 'medium') as 'low' | 'medium' | 'high'
-      },
-      phosphorus: { 
-        value: formData.phosphorus || 'Medium', 
-        status: (formData.phosphorus?.toLowerCase() === 'low' ? 'low' : formData.phosphorus?.toLowerCase() === 'high' ? 'high' : 'medium') as 'low' | 'medium' | 'high'
-      },
-      potassium: { 
-        value: formData.potassium || 'Medium', 
-        status: (formData.potassium?.toLowerCase() === 'low' ? 'low' : formData.potassium?.toLowerCase() === 'high' ? 'high' : 'medium') as 'low' | 'medium' | 'high'
-      },
-      moisture: { 
-        value: formData.moisture, 
-        status: (formData.moisture.toLowerCase() === 'low' ? 'low' : formData.moisture.toLowerCase() === 'high' ? 'high' : 'adequate') as 'low' | 'adequate' | 'high'
-      },
-      recommendation: 'Apply balanced fertilizer based on soil analysis',
-      detailedGuidance: {
-        fertilizer: 'Apply NPK fertilizer as per soil test results. Add organic matter to improve soil health.',
-        crops: ['🌾 Suitable crops based on soil condition'],
-        irrigation: 'Maintain optimal moisture levels based on crop requirements.'
-      },
-      expanded: false
-    };
-
-    setSoilTests(prev => [newTest, ...prev]);
-    setShowAddForm(false);
-    setFormData({
-      soilTexture: '', soilColor: '', moisture: '', cropHistory: '', 
-      fertilizerHistory: '', pH: '', nitrogen: '', phosphorus: '', potassium: '', moistureLevel: ''
-    });
-    alert('✅ New soil test added successfully!');
+  const handleCalculate = () => {
+    setShowResults(true);
   };
+
+  const soilScore = calculateSoilHealth();
+  const healthStatus = getSoilHealthStatus(soilScore);
+  const scorePercentage = (soilScore / 6) * 100;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-amber-50 via-green-50 to-emerald-50 pb-24">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 pb-24">
       {/* Header */}
       <div className="bg-gradient-to-r from-green-600 to-emerald-600 px-4 py-4 shadow-lg">
         <div className="flex items-center justify-between">
@@ -202,344 +130,249 @@ const SoilHealth = () => {
           
           <h1 className="text-xl font-bold text-white flex items-center">
             <TestTube2 className="w-6 h-6 mr-2" />
-            Soil Health Monitoring
+            Soil Health Assessment
           </h1>
           
           <div className="w-12" />
         </div>
       </div>
 
-      {/* Content */}
-      <div className="px-4 py-6 space-y-6">
-        {/* Soil Test Cards */}
-        {soilTests.map((test) => (
-          <Card key={test.id} className="shadow-lg border-0 bg-white/90 backdrop-blur-sm hover:shadow-xl transition-all duration-300 rounded-3xl overflow-hidden">
-            <CardContent className="p-0">
-              {/* Card Header */}
-              <div className="bg-gradient-to-r from-green-500/10 to-emerald-500/10 p-5 border-b border-green-100">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="text-sm font-semibold text-green-800 bg-green-100 px-3 py-1 rounded-full">
-                    {test.date}
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="text-xs text-gray-600">Test #{test.id}</div>
-                  </div>
-                </div>
+      {/* Scrollable Content */}
+      <div className="px-4 py-6 space-y-6 overflow-y-auto">
+        
+        {/* Instructions Card */}
+        <Card className="border-blue-200 bg-white/90 backdrop-blur-sm shadow-lg">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-lg text-blue-800 flex items-center gap-2">
+              📋 How to Test Your Soil
+            </CardTitle>
+            <CardDescription className="text-blue-600">
+              Follow these simple steps to assess your soil health
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <div className="space-y-3">
+              {/* pH Instructions */}
+              <div className="p-3 bg-green-50 rounded-lg border border-green-200">
+                <h3 className="font-semibold text-green-800 mb-1 text-sm">🧪 Soil pH Testing</h3>
+                <p className="text-xs text-green-700 leading-relaxed">
+                  Use a pH strip or digital meter. Mix 1 part soil with 1 part clean water, wait 30 minutes, then test. 
+                  Ideal range: 6.0-7.5 for most crops.
+                </p>
+              </div>
 
-                {/* Key Parameters */}
-                <div className="grid grid-cols-2 gap-3 mb-4">
-                  {/* pH */}
-                  <div className={`p-3 rounded-2xl border ${getStatusColor(test.pH.status)} flex items-center justify-between`}>
-                    <div className="flex items-center space-x-2">
-                      {getStatusIcon(test.pH.status)}
-                      <span className="font-medium text-sm">pH</span>
+              {/* Moisture Instructions */}
+              <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
+                <h3 className="font-semibold text-blue-800 mb-1 text-sm">💧 Soil Moisture Check</h3>
+                <p className="text-xs text-blue-700 leading-relaxed">
+                  Squeeze test: <strong>Dry</strong> = crumbles apart, <strong>Medium</strong> = holds shape but crumbles when poked, 
+                  <strong>Wet</strong> = water drips out when squeezed.
+                </p>
+              </div>
+
+              {/* Organic Matter Instructions */}
+              <div className="p-3 bg-amber-50 rounded-lg border border-amber-200">
+                <h3 className="font-semibold text-amber-800 mb-1 text-sm">🍃 Organic Matter Assessment</h3>
+                <p className="text-xs text-amber-700 leading-relaxed">
+                  Check soil color: <strong>Good</strong> = dark brown/black with visible organic bits, 
+                  <strong>Moderate</strong> = medium brown, <strong>Poor</strong> = light brown/sandy color.
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Input Controls Card */}
+        <Card className="border-green-200 bg-white/90 backdrop-blur-sm shadow-lg">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-lg text-green-800">Enter Your Soil Measurements</CardTitle>
+            <CardDescription className="text-green-600">
+              Use the instructions above to fill in these values
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-5">
+            
+            {/* pH Slider */}
+            <div className="space-y-3">
+              <label className="text-base font-semibold text-green-800 block">
+                Soil pH Level: <span className="text-green-600 font-bold">{pH[0].toFixed(1)}</span>
+              </label>
+              <div className="px-2">
+                <Slider 
+                  value={pH} 
+                  onValueChange={setPH} 
+                  max={14} 
+                  min={0} 
+                  step={0.1} 
+                  className="w-full h-6" 
+                />
+              </div>
+              <div className="flex justify-between text-xs text-gray-600 px-1">
+                <span>0 (Very Acidic)</span>
+                <span>7 (Neutral)</span>
+                <span>14 (Very Alkaline)</span>
+              </div>
+            </div>
+
+            {/* Soil Moisture Level */}
+            <div className="space-y-3">
+              <label className="text-base font-semibold text-blue-800 block">Soil Moisture Level</label>
+              <div className="grid grid-cols-3 gap-2">
+                {["Dry", "Medium", "Wet"].map((level) => (
+                  <Button
+                    key={level}
+                    variant={moisture === level ? "default" : "outline"}
+                    onClick={() => setMoisture(level)}
+                    className={`h-12 text-sm font-medium ${
+                      moisture === level
+                        ? "bg-blue-600 hover:bg-blue-700 text-white"
+                        : "border-blue-300 text-blue-700 hover:bg-blue-50"
+                    }`}
+                  >
+                    {level}
+                  </Button>
+                ))}
+              </div>
+              <div className="text-xs text-gray-600 text-center">
+                Choose based on squeeze test results
+              </div>
+            </div>
+
+            {/* Organic Matter Level */}
+            <div className="space-y-3">
+              <label className="text-base font-semibold text-amber-800 block">Organic Matter Level</label>
+              <div className="grid grid-cols-3 gap-2">
+                {["Poor", "Moderate", "Good"].map((level) => (
+                  <Button
+                    key={level}
+                    variant={organicMatter === level ? "default" : "outline"}
+                    onClick={() => setOrganicMatter(level)}
+                    className={`h-12 text-sm font-medium ${
+                      organicMatter === level
+                        ? "bg-amber-600 hover:bg-amber-700 text-white"
+                        : "border-amber-300 text-amber-700 hover:bg-amber-50"
+                    }`}
+                  >
+                    {level}
+                  </Button>
+                ))}
+              </div>
+              <div className="text-xs text-gray-600 text-center">
+                Based on soil color and visible organic matter
+              </div>
+            </div>
+
+            {/* Calculate Button */}
+            <div className="pt-4">
+              <Button
+                onClick={handleCalculate}
+                className="w-full bg-green-600 hover:bg-green-700 text-white rounded-xl py-4 text-lg font-semibold flex items-center justify-center space-x-2"
+              >
+                <Calculator className="w-5 h-5" />
+                <span>Calculate Soil Health</span>
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Results Card */}
+        {showResults && (
+          <Card className={`border-2 ${healthStatus.borderColor} ${healthStatus.bgColor} backdrop-blur-sm shadow-lg animate-in fade-in-0 slide-in-from-bottom-4 duration-500`}>
+            <CardHeader className="pb-3">
+              <CardTitle className="text-xl text-center">
+                <span className={healthStatus.color}>
+                  Score: {soilScore}/6 ({Math.round(scorePercentage)}%)
+                </span>
+              </CardTitle>
+              <CardDescription className="text-center">
+                <span className={`font-semibold text-lg ${healthStatus.color}`}>
+                  {healthStatus.status} Soil Health
+                </span>
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              
+              {/* Progress Bar */}
+              <div className="w-full bg-gray-200 rounded-full h-6 overflow-hidden">
+                <div
+                  className={`h-full transition-all duration-1000 ${
+                    soilScore >= 5
+                      ? "bg-green-500"
+                      : soilScore >= 3
+                      ? "bg-yellow-500"
+                      : "bg-red-500"
+                  }`}
+                  style={{ width: `${scorePercentage}%` }}
+                />
+              </div>
+
+              {/* Main Recommendation */}
+              <div className={`p-4 rounded-xl border-2 ${healthStatus.borderColor} ${healthStatus.bgColor}`}>
+                <h3 className={`text-base font-semibold mb-2 ${healthStatus.color}`}>
+                  🎯 Primary Recommendation
+                </h3>
+                <p className={`${healthStatus.color} font-medium leading-relaxed`}>
+                  {healthStatus.recommendation}
+                </p>
+              </div>
+
+              {/* Detailed Action Steps */}
+              <div className="space-y-2">
+                <h3 className={`text-base font-semibold ${healthStatus.color}`}>
+                  📋 Action Steps:
+                </h3>
+                <ul className="space-y-2">
+                  {healthStatus.details.map((step, index) => (
+                    <li key={index} className="flex items-start gap-2">
+                      <span className={`${healthStatus.color} mt-0.5 text-sm font-bold`}>
+                        {index + 1}.
+                      </span>
+                      <span className="text-gray-700 text-sm leading-relaxed">{step}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Parameter Breakdown */}
+              <div className="border-t pt-4">
+                <h3 className="text-sm font-semibold text-gray-800 mb-3">📊 Score Breakdown:</h3>
+                <div className="grid grid-cols-3 gap-2 text-xs">
+                  <div className="text-center p-2 bg-white/50 rounded-lg">
+                    <div className="font-semibold">pH</div>
+                    <div className={healthStatus.color}>
+                      {pH[0] >= 6.0 && pH[0] <= 7.5 ? '2' : 
+                       ((pH[0] >= 5.5 && pH[0] < 6.0) || (pH[0] > 7.5 && pH[0] <= 8.0)) ? '1' : '0'}/2
                     </div>
-                    <div className="font-bold text-sm">{test.pH.value}</div>
                   </div>
-
-                  {/* Nitrogen */}
-                  <div className={`p-3 rounded-2xl border ${getStatusColor(test.nitrogen.status)} flex items-center justify-between`}>
-                    <div className="flex items-center space-x-2">
-                      {getStatusIcon(test.nitrogen.status)}
-                      <span className="font-medium text-sm">N</span>
+                  <div className="text-center p-2 bg-white/50 rounded-lg">
+                    <div className="font-semibold">Moisture</div>
+                    <div className={healthStatus.color}>
+                      {moisture === "Medium" ? '2' : (moisture === "Dry" || moisture === "Wet") ? '1' : '0'}/2
                     </div>
-                    <div className="font-bold text-sm">{test.nitrogen.value}</div>
                   </div>
-
-                  {/* Phosphorus */}
-                  <div className={`p-3 rounded-2xl border ${getStatusColor(test.phosphorus.status)} flex items-center justify-between`}>
-                    <div className="flex items-center space-x-2">
-                      {getStatusIcon(test.phosphorus.status)}
-                      <span className="font-medium text-sm">P</span>
-                    </div>
-                    <div className="font-bold text-sm">{test.phosphorus.value}</div>
-                  </div>
-
-                  {/* Potassium */}
-                  <div className={`p-3 rounded-2xl border ${getStatusColor(test.potassium.status)} flex items-center justify-between`}>
-                    <div className="flex items-center space-x-2">
-                      {getStatusIcon(test.potassium.status)}
-                      <span className="font-medium text-sm">K</span>
-                    </div>
-                    <div className="font-bold text-sm">{test.potassium.value}</div>
-                  </div>
-                </div>
-
-                {/* Moisture */}
-                <div className={`p-4 rounded-2xl border ${getStatusColor(test.moisture.status)} flex items-center justify-between mb-4`}>
-                  <div className="flex items-center space-x-2">
-                    <Droplets className="w-5 h-5" />
-                    <span className="font-medium">Moisture</span>
-                  </div>
-                  <div className="font-bold">{test.moisture.value}</div>
-                </div>
-
-                {/* Quick Recommendation */}
-                <div className="bg-blue-50 border border-blue-200 p-4 rounded-2xl">
-                  <div className="flex items-start space-x-2">
-                    <Leaf className="w-5 h-5 text-blue-600 mt-0.5" />
-                    <div>
-                      <div className="font-medium text-blue-800 text-sm mb-1">Quick Recommendation</div>
-                      <div className="text-blue-700 text-sm">{test.recommendation}</div>
+                  <div className="text-center p-2 bg-white/50 rounded-lg">
+                    <div className="font-semibold">Organic</div>
+                    <div className={healthStatus.color}>
+                      {organicMatter === "Good" ? '2' : organicMatter === "Moderate" ? '1' : '0'}/2
                     </div>
                   </div>
                 </div>
               </div>
-
-              {/* Action Buttons */}
-              <div className="p-5 flex space-x-3">
-                <Button 
-                  onClick={() => toggleExpanded(test.id)}
-                  className="flex-1 bg-green-600 hover:bg-green-700 text-white rounded-2xl py-3 flex items-center justify-center space-x-2"
-                >
-                  <Eye className="w-4 h-4" />
-                  <span>View Details</span>
-                </Button>
-                
-                <Button 
-                  onClick={() => saveGuidance(test.id)}
-                  variant="outline"
-                  className="flex-1 border-green-600 text-green-600 hover:bg-green-50 rounded-2xl py-3 flex items-center justify-center space-x-2"
-                >
-                  <Bookmark className="w-4 h-4" />
-                  <span>Save Guidance</span>
-                </Button>
-              </div>
-
-              {/* Expanded Details */}
-              {test.expanded && (
-                <div className="border-t border-gray-100 p-5 bg-gray-50/50 space-y-4">
-                  {/* Fertilizer Guidance */}
-                  <div className="bg-amber-50 border border-amber-200 p-4 rounded-2xl">
-                    <div className="flex items-start space-x-2">
-                      <Beaker className="w-5 h-5 text-amber-600 mt-0.5" />
-                      <div>
-                        <div className="font-semibold text-amber-800 mb-2">🌾 Fertilizer Guidance</div>
-                        <div className="text-amber-700 text-sm leading-relaxed">{test.detailedGuidance.fertilizer}</div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Crop Suggestions */}
-                  <div className="bg-green-50 border border-green-200 p-4 rounded-2xl">
-                    <div className="flex items-start space-x-2">
-                      <Wheat className="w-5 h-5 text-green-600 mt-0.5" />
-                      <div className="flex-1">
-                        <div className="font-semibold text-green-800 mb-2">🌱 Recommended Crops</div>
-                        <div className="flex flex-wrap gap-2">
-                          {test.detailedGuidance.crops.map((crop, index) => (
-                            <div key={index} className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium">
-                              {crop}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Irrigation Tips */}
-                  <div className="bg-blue-50 border border-blue-200 p-4 rounded-2xl">
-                    <div className="flex items-start space-x-2">
-                      <Droplets className="w-5 h-5 text-blue-600 mt-0.5" />
-                      <div>
-                        <div className="font-semibold text-blue-800 mb-2">💧 Irrigation Tips</div>
-                        <div className="text-blue-700 text-sm leading-relaxed">{test.detailedGuidance.irrigation}</div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Save Button for Expanded View */}
-                  <div className="pt-2">
-                    <Button 
-                      onClick={() => saveGuidance(test.id)}
-                      className="w-full bg-green-600 hover:bg-green-700 text-white rounded-2xl py-3 flex items-center justify-center space-x-2"
-                    >
-                      <Save className="w-4 h-4" />
-                      <span>Save Complete Guidance to Advisory</span>
-                    </Button>
-                  </div>
-                </div>
-              )}
             </CardContent>
           </Card>
-        ))}
+        )}
+
+        {/* Footer Tips Card */}
+        <Card className="border-blue-200 bg-white/90 backdrop-blur-sm shadow-lg">
+          <CardContent className="pt-4">
+            <p className="text-center text-xs text-gray-600 leading-relaxed">
+              💡 <strong>Pro Tip:</strong> Test your soil 2-3 times per year (before planting seasons) for best results. 
+              For detailed nutrient analysis, contact your local agricultural extension office.
+            </p>
+          </CardContent>
+        </Card>
+
       </div>
-
-      {/* Floating Add Button */}
-      <div className="fixed bottom-24 right-6 z-50">
-        <Button
-          onClick={() => setShowAddForm(true)}
-          className="w-16 h-16 bg-green-600 hover:bg-green-700 text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-all duration-200"
-        >
-          <Plus className="w-8 h-8" />
-        </Button>
-      </div>
-
-      {/* Add New Soil Test Modal/Form */}
-      {showAddForm && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-end">
-          <div className="bg-white w-full max-h-[90vh] rounded-t-3xl overflow-hidden">
-            {/* Form Header */}
-            <div className="bg-green-600 p-5 flex items-center justify-between">
-              <h2 className="text-xl font-bold text-white">Add New Soil Test</h2>
-              <Button 
-                onClick={() => setShowAddForm(false)}
-                variant="ghost" 
-                size="sm"
-                className="text-white hover:bg-white/20 rounded-full p-2"
-              >
-                <X className="w-5 h-5" />
-              </Button>
-            </div>
-
-            {/* Form Content */}
-            <div className="p-5 space-y-4 overflow-y-auto max-h-[calc(90vh-120px)]">
-              {/* Required Fields */}
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Soil Texture *</label>
-                  <select 
-                    value={formData.soilTexture}
-                    onChange={(e) => setFormData(prev => ({ ...prev, soilTexture: e.target.value }))}
-                    className="w-full p-3 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                  >
-                    <option value="">Select soil texture</option>
-                    <option value="clay">Clay</option>
-                    <option value="loam">Loam</option>
-                    <option value="sandy">Sandy</option>
-                    <option value="silt">Silt</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Soil Color</label>
-                  <input 
-                    type="text"
-                    value={formData.soilColor}
-                    onChange={(e) => setFormData(prev => ({ ...prev, soilColor: e.target.value }))}
-                    placeholder="e.g., Dark brown, Red, Black"
-                    className="w-full p-3 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Moisture Level *</label>
-                  <select 
-                    value={formData.moisture}
-                    onChange={(e) => setFormData(prev => ({ ...prev, moisture: e.target.value }))}
-                    className="w-full p-3 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                  >
-                    <option value="">Select moisture level</option>
-                    <option value="Low">Low</option>
-                    <option value="Adequate">Adequate</option>
-                    <option value="High">High</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Crop History</label>
-                  <input 
-                    type="text"
-                    value={formData.cropHistory}
-                    onChange={(e) => setFormData(prev => ({ ...prev, cropHistory: e.target.value }))}
-                    placeholder="Previous crops grown"
-                    className="w-full p-3 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Fertilizer History</label>
-                  <input 
-                    type="text"
-                    value={formData.fertilizerHistory}
-                    onChange={(e) => setFormData(prev => ({ ...prev, fertilizerHistory: e.target.value }))}
-                    placeholder="Recent fertilizers used"
-                    className="w-full p-3 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                  />
-                </div>
-              </div>
-
-              {/* Optional IoT Sensor Data */}
-              <div className="border-t pt-4">
-                <h3 className="text-lg font-semibold text-gray-800 mb-4">Optional: IoT Sensor Data</h3>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">pH Level</label>
-                    <input 
-                      type="number"
-                      value={formData.pH}
-                      onChange={(e) => setFormData(prev => ({ ...prev, pH: e.target.value }))}
-                      placeholder="6.5"
-                      step="0.1"
-                      min="0" max="14"
-                      className="w-full p-3 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Nitrogen</label>
-                    <select 
-                      value={formData.nitrogen}
-                      onChange={(e) => setFormData(prev => ({ ...prev, nitrogen: e.target.value }))}
-                      className="w-full p-3 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                    >
-                      <option value="">Select level</option>
-                      <option value="Low">Low</option>
-                      <option value="Medium">Medium</option>
-                      <option value="High">High</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Phosphorus</label>
-                    <select 
-                      value={formData.phosphorus}
-                      onChange={(e) => setFormData(prev => ({ ...prev, phosphorus: e.target.value }))}
-                      className="w-full p-3 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                    >
-                      <option value="">Select level</option>
-                      <option value="Low">Low</option>
-                      <option value="Medium">Medium</option>
-                      <option value="High">High</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Potassium</label>
-                    <select 
-                      value={formData.potassium}
-                      onChange={(e) => setFormData(prev => ({ ...prev, potassium: e.target.value }))}
-                      className="w-full p-3 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                    >
-                      <option value="">Select level</option>
-                      <option value="Low">Low</option>
-                      <option value="Medium">Medium</option>
-                      <option value="High">High</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Form Actions */}
-            <div className="border-t bg-gray-50 p-5 flex space-x-3">
-              <Button 
-                onClick={() => setShowAddForm(false)}
-                variant="outline"
-                className="flex-1 border-gray-300 text-gray-600 hover:bg-gray-100 rounded-2xl py-3"
-              >
-                Cancel
-              </Button>
-              <Button 
-                onClick={handleAddTest}
-                className="flex-1 bg-green-600 hover:bg-green-700 text-white rounded-2xl py-3"
-              >
-                Save Test
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
