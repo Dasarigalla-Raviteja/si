@@ -26,6 +26,26 @@ body {
   user-select: none;
 }
 
+/* Custom Floating Animation for FAB */
+@keyframes floating {
+  0% { 
+    transform: translate(0, 0px) scale(1); 
+    box-shadow: 0 8px 30px rgba(34, 197, 94, 0.4);
+  }
+  50% { 
+    transform: translate(0, -12px) scale(1.05); 
+    box-shadow: 0 15px 35px rgba(34, 197, 94, 0.6);
+  }
+  100% { 
+    transform: translate(0, 0px) scale(1); 
+    box-shadow: 0 8px 30px rgba(34, 197, 94, 0.4);
+  }
+}
+
+.floating-fab {
+  animation: floating 2.5s ease-in-out infinite;
+}
+
 @layer base {
   :root {
     /* Agricultural Color Palette */

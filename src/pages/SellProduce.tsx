@@ -113,7 +113,7 @@ const SellProduce = () => {
       return 'pending';
     } else if (hoursSinceCreated < 24) {
       // 80% chance of acceptance based on good price and demand
-      const pricePerKg = parseFloat(listing.pricePerKg);
+      const pricePerKg = typeof listing.pricePerKg === 'string' ? parseFloat(listing.pricePerKg) : listing.pricePerKg;
       const avgMarketPrice = getAverageMarketPrice(listing.crop);
       const priceRatio = pricePerKg / avgMarketPrice;
       
@@ -419,16 +419,7 @@ const SellProduce = () => {
           {selectedTab === 'create' && (
             <>
               <div className="mb-6">
-                <div className="flex items-center justify-between mb-3">
-                  <h2 className="text-lg font-bold text-gray-900">🌾 Select Crop to Sell</h2>
-                  <Button
-                    onClick={() => setShowCreateListingDialog(true)}
-                    className="bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded-xl flex items-center space-x-1"
-                  >
-                    <Plus className="w-4 h-4" />
-                    <span className="text-sm font-medium">Create</span>
-                  </Button>
-                </div>
+                <h2 className="text-lg font-bold text-gray-900 mb-3">🌾 Select Crop to Sell</h2>
                 <p className="text-sm text-gray-600 mb-4">Choose from current Chennai market prices. Tap a crop to create your listing.</p>
                 <div className="grid grid-cols-2 gap-3">
                   {marketPrices.map((crop, index) => (
@@ -550,6 +541,17 @@ const SellProduce = () => {
           )}
         </div>
 
+        {/* Floating Action Button - Only show in create tab */}
+        {selectedTab === 'create' && (
+          <div className="fixed bottom-24 right-6 z-20">
+            <Button
+              onClick={() => setShowCreateListingDialog(true)}
+              className="w-16 h-16 rounded-full bg-green-500 hover:bg-green-600 text-white transition-all duration-300 flex items-center justify-center group hover:scale-110 floating-fab hover:!animate-none"
+            >
+              <Plus className="w-7 h-7 text-white group-hover:rotate-90 transition-transform duration-300" />
+            </Button>
+          </div>
+        )}
 
       </div>
 
