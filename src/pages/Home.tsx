@@ -201,49 +201,47 @@ const Home = () => {
   return (
     <div className="mobile-container bg-gradient-to-br from-green-50 via-emerald-50 to-lime-50 min-h-screen">
       {/* Header */}
-      <div className="bg-green-50 px-4 py-4 shadow-sm">
+      <div className="bg-green-50 px-4 py-3 shadow-sm">
         <div className="flex items-center justify-between">
           {/* Left side - Logo and Greeting */}
-          <div className="flex items-center space-x-4">
-            <div className="w-14 h-14 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl shadow-lg flex items-center justify-center overflow-hidden">
+          <div className="flex items-center space-x-3">
+            <div className="w-16 h-16 bg-white rounded-2xl shadow-md flex items-center justify-center p-1">
               <img 
-                src="/assets/kisanmitra-logo.jpg" 
+                src="/assets/kisanmitra-logo-clean.png" 
                 alt="KisanMitra Logo" 
-                className="w-12 h-12 object-cover rounded-xl"
-                onError={(e) => {
-                  // Fallback to icon if image fails
-                  e.currentTarget.outerHTML = `<div class="w-12 h-12 flex items-center justify-center"><svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L13.09 8.26L22 9L13.09 9.74L12 16L10.91 9.74L2 9L10.91 8.26L12 2Z"/><path d="M12 12C14.21 12 16 10.21 16 8S14.21 4 12 4S8 5.79 8 8S9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z"/></svg></div>`;
-                }}
+                className="w-full h-full object-contain"
               />
             </div>
-            <div className="flex-1">
-              <h2 className="text-xl font-bold text-green-900">KisanMitra</h2>
-              <p className="text-base font-medium text-green-700">
+            <div>
+              <h2 className="text-lg font-bold text-green-900 leading-tight">KisanMitra</h2>
+              <p className="text-sm font-medium text-green-700 leading-tight">
                 Good Morning, Raviteja Ji!
               </p>
             </div>
           </div>
           
           {/* Right side - Controls */}
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-1">
             {/* Language Toggle */}
-            <LanguageSwitcher />
+            <div className="scale-90">
+              <LanguageSwitcher />
+            </div>
             
             {/* Notification Bell */}
             <button 
               onClick={() => setShowNotifications(true)}
-              className="relative p-2 hover:bg-green-100 rounded-full transition-colors"
+              className="relative p-2 hover:bg-green-100 rounded-full transition-colors flex items-center justify-center"
             >
-              <Bell className="w-6 h-6 text-green-700" />
-              <div className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center">
-                <span className="text-xs font-bold text-white">3</span>
+              <Bell className="w-5 h-5 text-green-700" />
+              <div className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-red-500 rounded-full flex items-center justify-center">
+                <span className="text-xs font-bold text-white leading-none">3</span>
               </div>
             </button>
 
             {/* Profile Icon */}
             <button 
               onClick={() => navigate('/profile')}
-              className="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center text-white text-sm font-semibold shadow-md hover:bg-green-700 transition-colors"
+              className="w-9 h-9 bg-green-600 rounded-full flex items-center justify-center text-white text-sm font-semibold shadow-sm hover:bg-green-700 transition-colors ml-1"
             >
               R
             </button>
