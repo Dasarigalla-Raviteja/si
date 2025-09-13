@@ -396,9 +396,8 @@ const Home = () => {
               {/* Marketplace Action Buttons */}
               <div className="grid grid-cols-2 gap-4">
                 <Button 
-                  variant="outline" 
                   onClick={() => navigate('/market-prices')}
-                  className="flex items-center space-x-3 justify-center h-12 text-base font-semibold rounded-2xl active:scale-95 transition-transform"
+                  className="bg-green-500 hover:bg-green-600 text-white flex items-center space-x-3 justify-center h-12 text-base font-semibold rounded-2xl active:scale-95 transition-transform"
                 >
                   <BarChart3 className="w-5 h-5" />
                   <span>See All Prices</span>
@@ -504,14 +503,14 @@ const Home = () => {
             <Card className="cursor-pointer active:scale-95 transition-transform rounded-2xl shadow-md border-0 bg-gradient-to-r from-green-100/90 to-lime-100/90 hover:shadow-lg backdrop-blur-sm" onClick={() => navigate('/sell')}>
               <CardContent className="p-4">
                 <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-lime-200 to-lime-300 rounded-xl flex items-center justify-center shadow-md">
-                    <Package className="w-6 h-6 text-lime-800" />
+                  <div className="w-12 h-12 bg-gradient-to-br from-green-200 to-green-300 rounded-xl flex items-center justify-center shadow-md">
+                    <Package className="w-6 h-6 text-green-800" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="font-bold text-lime-900 text-base mb-1">My Listings</h3>
-                    <p className="text-lime-800 text-sm">Manage crop listings</p>
+                    <h3 className="font-bold text-green-900 text-base mb-1">My Listings</h3>
+                    <p className="text-green-800 text-sm">Manage crop listings</p>
                   </div>
-                  <ChevronRight className="w-5 h-5 text-lime-700" />
+                  <ChevronRight className="w-5 h-5 text-green-700" />
                 </div>
               </CardContent>
             </Card>
