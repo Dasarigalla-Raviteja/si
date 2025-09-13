@@ -39,9 +39,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { weatherService, WeatherData } from '@/lib/weather';
 import { marketData } from '@/lib/marketData';
+import { useTranslation } from '@/contexts/TranslationContext';
 
 const Home = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [weatherLoading, setWeatherLoading] = useState(true);
   
@@ -52,9 +54,9 @@ const Home = () => {
   // Get time-based greeting
   const getGreeting = () => {
     const hour = new Date().getHours();
-    if (hour < 12) return '🌱 Good Morning';
-    if (hour < 17) return '🌞 Good Afternoon';
-    return '🌙 Good Evening';
+    if (hour < 12) return '🌱 ' + t('goodMorning');
+    if (hour < 17) return '🌞 ' + t('goodAfternoon');
+    return '🌙 ' + t('goodEvening');
   };
 
   // Load weather data
@@ -213,7 +215,7 @@ const Home = () => {
             <div>
               <h2 className="text-lg font-bold text-green-900 leading-tight">KisanMitra</h2>
               <p className="text-sm font-medium text-green-700 leading-tight">
-                Good Morning, Raviteja Ji!
+                {getGreeting()}, Raviteja Ji!
               </p>
             </div>
           </div>
@@ -257,7 +259,7 @@ const Home = () => {
               <div className="flex items-center space-x-2">
                 <MapPin className="w-4 h-4 text-blue-600" />
                 <span className="text-sm font-semibold text-blue-800">
-                  {weatherLoading ? 'Loading...' : weather?.location || 'Location unavailable'}
+                  {weatherLoading ? t('loading') : weather?.location || t('location')}
                 </span>
               </div>
               <Button 
@@ -266,7 +268,7 @@ const Home = () => {
                 className="bg-white/70 border-blue-200 hover:bg-white text-blue-700 text-sm h-8 px-3 rounded-xl"
                 onClick={() => navigate('/weather')}
               >
-                More
+                {t('weather')}
               </Button>
             </div>
 
@@ -315,15 +317,15 @@ const Home = () => {
                 <div className="bg-white/20 text-white text-sm font-medium px-3 py-1 rounded-full inline-block mb-3">
                   AI Powered
                 </div>
-                <h3 className="font-bold text-white text-xl mb-1">Diagnose Plant Health</h3>
-                <p className="text-white/90 text-base">Take a photo to check diseases</p>
+                <h3 className="font-bold text-white text-xl mb-1">{t('plantHealth')}</h3>
+                <p className="text-white/90 text-base">{t('capturePlant')}</p>
               </div>
               <Button 
                 onClick={() => navigate('/diagnose')}
                 className="bg-white text-green-500 hover:bg-white/90 font-bold rounded-xl px-6 py-3 flex items-center space-x-2 text-base active:scale-95 transition-transform ml-4"
               >
                 <Camera className="w-5 h-5" />
-                <span>Start</span>
+                <span>{t('startDiagnosis')}</span>
               </Button>
             </div>
           </CardContent>
@@ -331,7 +333,7 @@ const Home = () => {
 
         {/* Soil & Fertilizer Cards */}
         <div className="space-y-4">
-          <h2 className="text-xl font-bold text-text-secondary">🧪 Soil & Fertilizer</h2>
+          <h2 className="text-xl font-bold text-text-secondary">🧪 {t('soilTest')} & {t('fertilizers')}</h2>
           <div className="space-y-3">
             <Card className="cursor-pointer active:scale-95 transition-transform rounded-2xl shadow-md border-0 bg-gradient-to-r from-green-100/90 to-emerald-100/90 hover:shadow-lg backdrop-blur-sm" onClick={() => navigate('/soil-health')}>
               <CardContent className="p-4">
@@ -340,7 +342,7 @@ const Home = () => {
                     <TestTube className="w-6 h-6 text-green-800" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="font-bold text-green-900 text-base mb-1">Soil Health</h3>
+                    <h3 className="font-bold text-green-900 text-base mb-1">{t('soilHealthTool')}</h3>
                     <p className="text-green-800 text-sm">Check nutrient levels</p>
                   </div>
                   <ChevronRight className="w-5 h-5 text-green-700" />
@@ -367,13 +369,13 @@ const Home = () => {
 
         {/* Marketplace Section */}
         <div className="space-y-4">
-          <h2 className="text-xl font-bold text-text-secondary">🛒 Marketplace</h2>
+          <h2 className="text-xl font-bold text-text-secondary">🛒 {t('shop')}</h2>
           
           {/* Market Prices Preview */}
           <Card className="rounded-3xl shadow-lg border-0 bg-gradient-to-br from-green-100/80 to-emerald-100/80 backdrop-blur-sm">
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-5">
-                <h3 className="font-bold text-text-secondary text-xl">Today's Mandi Prices</h3>
+                <h3 className="font-bold text-text-secondary text-xl">{t('marketPrices')}</h3>
                 <TrendingUp className="w-6 h-6 text-agri-success" />
               </div>
               <div className="space-y-3 mb-6">

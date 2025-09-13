@@ -10,10 +10,12 @@ import {
   Download
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useTranslation } from '@/contexts/TranslationContext';
 
 const OrderSuccess = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useTranslation();
   const orderData = location.state;
   const orderId = orderData?.orderId || 'ORD' + Date.now();
   const order = orderData?.order;
@@ -34,15 +36,15 @@ const OrderSuccess = () => {
 
         {/* Success Message */}
         <div className="space-y-3">
-          <h1 className="text-2xl font-bold text-green-800">Order Placed Successfully!</h1>
-          <p className="text-green-600">Thank you for your order. We'll take care of your farming needs.</p>
+          <h1 className="text-2xl font-bold text-green-800">{t('orderPlaced')}</h1>
+          <p className="text-green-600">{t('thankYou')}</p>
         </div>
 
         {/* Order Details */}
         <div className="bg-white rounded-2xl p-6 shadow-sm border border-green-200 w-full max-w-sm">
           <div className="space-y-4">
             <div className="text-center">
-              <p className="text-sm text-gray-500">Order ID</p>
+              <p className="text-sm text-gray-500">{t('orderId')}</p>
               <p className="font-mono text-lg font-semibold text-gray-900">#{orderId}</p>
               {order && (
                 <div className="mt-2">
@@ -87,7 +89,7 @@ const OrderSuccess = () => {
               <Clock className="w-5 h-5 text-blue-600" />
             </div>
             <div>
-              <p className="font-medium text-gray-900">Estimated Delivery</p>
+              <p className="font-medium text-gray-900">{t('estimatedDelivery')}</p>
               <p className="text-sm text-blue-600">Tomorrow by 6:00 PM</p>
             </div>
           </div>
@@ -100,7 +102,7 @@ const OrderSuccess = () => {
               <MapPin className="w-5 h-5 text-green-600" />
             </div>
             <div>
-              <p className="font-medium text-gray-900">Delivery Address</p>
+              <p className="font-medium text-gray-900">{t('deliveryAddress')}</p>
               <p className="text-sm text-gray-600">
                 {selectedAddress ? selectedAddress.address : order?.address || 'Village Rampur, Dist. Hardoi, UP 241001'}
               </p>
@@ -115,7 +117,7 @@ const OrderSuccess = () => {
             className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl"
           >
             <Package className="w-5 h-5 mr-2" />
-            View My Orders
+            {t('viewMyOrders')}
           </Button>
 
           <Button 
@@ -123,7 +125,7 @@ const OrderSuccess = () => {
             variant="outline"
             className="w-full border-green-600 text-green-600 hover:bg-green-50 py-3 rounded-xl"
           >
-            Continue Shopping
+            {t('continueShopping')}
           </Button>
 
         </div>
