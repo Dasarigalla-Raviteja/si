@@ -60,5 +60,5 @@ externalPort = 3000
 
 [deployment]
 deploymentTarget = "autoscale"
-run = ["npm", "run", "preview"]
-build = ["npm", "run", "build"]
+run = ["gunicorn", "-w", "2", "-k", "gthread", "-b", "0.0.0.0:5000", "backend.plant_diagnosis_api:app"]
+build = ["npm", "ci", "--omit=dev", "&&", "npm", "run", "build", "&&", "pip", "install", "-r", "requirements.txt"]
