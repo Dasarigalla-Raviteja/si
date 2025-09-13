@@ -208,14 +208,14 @@ const Home = () => {
             <div className="w-16 h-16 bg-white rounded-2xl shadow-md flex items-center justify-center p-1">
               <img 
                 src="/assets/kisanmitra-logo-clean.png" 
-                alt="KisanMitra Logo" 
+                alt={t('home.title') + ' Logo'} 
                 className="w-full h-full object-contain"
               />
             </div>
             <div>
               <h2 className="text-lg font-bold text-green-900 leading-tight">{t('home.title')}</h2>
               <p className="text-sm font-medium text-green-700 leading-tight">
-                Good Morning, Raviteja Ji!
+                {t('home.greeting_with_name', { name: userName || 'Farmer' })}
               </p>
             </div>
           </div>
@@ -268,7 +268,7 @@ const Home = () => {
                 className="bg-white/70 border-blue-200 hover:bg-white text-blue-700 text-sm h-8 px-3 rounded-xl"
                 onClick={() => navigate('/weather')}
               >
-                More
+                {t('home.more')}
               </Button>
             </div>
 
@@ -298,7 +298,7 @@ const Home = () => {
               
               {/* Quick Stats */}
               <div className="text-center">
-                <div className="text-xs text-blue-600 mb-1">Humidity</div>
+                <div className="text-xs text-blue-600 mb-1">{t('home.humidity')}</div>
                 <div className="text-sm font-semibold text-blue-800">
                   {weatherLoading ? '--%' : weather ? `${weather.humidity}%` : '--%'}
                 </div>
@@ -315,17 +315,17 @@ const Home = () => {
             <div className="flex items-center justify-between">
               <div className="flex-1">
                 <div className="bg-white/20 text-white text-sm font-medium px-3 py-1 rounded-full inline-block mb-3">
-                  AI Powered
+                  {t('home.ai_powered')}
                 </div>
-                <h3 className="font-bold text-white text-xl mb-1">Diagnose Plant Health</h3>
-                <p className="text-white/90 text-base">Take a photo to check diseases</p>
+                <h3 className="font-bold text-white text-xl mb-1">{t('home.diagnose_plant_health')}</h3>
+                <p className="text-white/90 text-base">{t('home.take_photo_check_diseases')}</p>
               </div>
               <Button 
                 onClick={() => navigate('/diagnose')}
                 className="bg-white text-green-500 hover:bg-white/90 font-bold rounded-xl px-6 py-3 flex items-center space-x-2 text-base active:scale-95 transition-transform ml-4"
               >
                 <Camera className="w-5 h-5" />
-                <span>Start</span>
+                <span>{t('home.start')}</span>
               </Button>
             </div>
           </CardContent>
@@ -333,7 +333,7 @@ const Home = () => {
 
         {/* Soil & Fertilizer Cards */}
         <div className="space-y-4">
-          <h2 className="text-xl font-bold text-text-secondary">🧪 Soil & Fertilizer</h2>
+          <h2 className="text-xl font-bold text-text-secondary">{t('home.sections.soil_fertilizer')}</h2>
           <div className="space-y-3">
             <Card className="cursor-pointer active:scale-95 transition-transform rounded-2xl shadow-md border-0 bg-gradient-to-r from-green-100/90 to-emerald-100/90 hover:shadow-lg backdrop-blur-sm" onClick={() => navigate('/soil-health')}>
               <CardContent className="p-4">
@@ -342,8 +342,8 @@ const Home = () => {
                     <TestTube className="w-6 h-6 text-green-800" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="font-bold text-green-900 text-base mb-1">Soil Health</h3>
-                    <p className="text-green-800 text-sm">Check nutrient levels</p>
+                    <h3 className="font-bold text-green-900 text-base mb-1">{t('home.soil_health')}</h3>
+                    <p className="text-green-800 text-sm">{t('home.check_nutrient_levels')}</p>
                   </div>
                   <ChevronRight className="w-5 h-5 text-green-700" />
                 </div>
@@ -357,8 +357,8 @@ const Home = () => {
                     <Beaker className="w-6 h-6 text-green-800" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="font-bold text-green-900 text-base mb-1">Fertilizer Guide</h3>
-                    <p className="text-green-800 text-sm">Get nutrient advice</p>
+                    <h3 className="font-bold text-green-900 text-base mb-1">{t('home.fertilizer_guide')}</h3>
+                    <p className="text-green-800 text-sm">{t('home.get_nutrient_advice')}</p>
                   </div>
                   <ChevronRight className="w-5 h-5 text-green-700" />
                 </div>
@@ -369,13 +369,13 @@ const Home = () => {
 
         {/* Marketplace Section */}
         <div className="space-y-4">
-          <h2 className="text-xl font-bold text-text-secondary">🛒 Marketplace</h2>
+          <h2 className="text-xl font-bold text-text-secondary">{t('home.sections.marketplace')}</h2>
           
           {/* Market Prices Preview */}
           <Card className="rounded-3xl shadow-lg border-0 bg-gradient-to-br from-green-100/80 to-emerald-100/80 backdrop-blur-sm">
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-5">
-                <h3 className="font-bold text-text-secondary text-xl">Today's Mandi Prices</h3>
+                <h3 className="font-bold text-text-secondary text-xl">{t('home.todays_mandi_prices')}</h3>
                 <TrendingUp className="w-6 h-6 text-agri-success" />
               </div>
               <div className="space-y-3 mb-6">
@@ -384,7 +384,7 @@ const Home = () => {
                     <div className="flex-1 min-w-0">
                       <span className="font-bold text-gray-900 text-base sm:text-lg truncate block">{item.crop}</span>
                       <div className="text-sm text-gray-600 mt-0.5 flex items-center">
-                        {item.trend === 'up' ? '↗ Trending up' : '↘ Trending down'}
+                        {item.trend === 'up' ? `↗ ${t('home.trending_up')}` : `↘ ${t('home.trending_down')}`}
                       </div>
                     </div>
                     <div className="text-right ml-4 flex-shrink-0">
@@ -413,14 +413,14 @@ const Home = () => {
                   className="bg-green-500 hover:bg-green-600 text-white flex items-center space-x-3 justify-center h-12 text-base font-semibold rounded-2xl active:scale-95 transition-transform"
                 >
                   <BarChart3 className="w-5 h-5" />
-                  <span>See Prices</span>
+                  <span>{t('home.see_prices')}</span>
                 </Button>
                 <Button 
                   onClick={() => navigate('/sell')}
                   className="bg-agri-success hover:bg-agri-success/90 flex items-center space-x-3 justify-center h-12 text-base font-semibold rounded-2xl active:scale-95 transition-transform"
                 >
                   <TrendingUp className="w-5 h-5" />
-                  <span>Sell Crops</span>
+                  <span>{t('home.sell_crops')}</span>
                 </Button>
               </div>
             </CardContent>
@@ -435,8 +435,8 @@ const Home = () => {
                     <ShoppingCart className="w-6 h-6 text-green-800" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="font-bold text-green-900 text-base mb-1">Order Fertilizers</h3>
-                    <p className="text-green-800 text-sm">Shop nutrients</p>
+                    <h3 className="font-bold text-green-900 text-base mb-1">{t('home.order_fertilizers')}</h3>
+                    <p className="text-green-800 text-sm">{t('home.shop_nutrients')}</p>
                   </div>
                   <ChevronRight className="w-5 h-5 text-green-700" />
                 </div>
@@ -450,8 +450,8 @@ const Home = () => {
                     <MapPin className="w-6 h-6 text-green-800" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="font-bold text-green-900 text-base mb-1">Nearby Shops</h3>
-                    <p className="text-green-800 text-sm">Find agri stores</p>
+                    <h3 className="font-bold text-green-900 text-base mb-1">{t('home.nearby_shops')}</h3>
+                    <p className="text-green-800 text-sm">{t('home.find_agri_stores')}</p>
                   </div>
                   <ChevronRight className="w-5 h-5 text-green-700" />
                 </div>
@@ -462,7 +462,7 @@ const Home = () => {
 
         {/* My Farm Section - 4 Cards */}
         <div className="space-y-4">
-          <h2 className="text-xl font-bold text-text-secondary">🌱 My Farm</h2>
+          <h2 className="text-xl font-bold text-text-secondary">{t('home.sections.my_farm')}</h2>
           
           <div className="space-y-3">
             <Card className="cursor-pointer active:scale-95 transition-transform rounded-2xl shadow-md border-0 bg-gradient-to-r from-green-100/90 to-emerald-100/90 hover:shadow-lg backdrop-blur-sm" onClick={() => navigate('/treatments')}>
@@ -475,8 +475,8 @@ const Home = () => {
                     </div>
                   </div>
                   <div className="flex-1">
-                    <h3 className="font-bold text-green-900 text-base mb-1">Active Treatments</h3>
-                    <p className="text-green-800 text-sm">2 ongoing sprays</p>
+                    <h3 className="font-bold text-green-900 text-base mb-1">{t('home.active_treatments')}</h3>
+                    <p className="text-green-800 text-sm">2 {t('home.ongoing_sprays')}</p>
                   </div>
                   <ChevronRight className="w-5 h-5 text-green-700" />
                 </div>
@@ -490,8 +490,8 @@ const Home = () => {
                     <Sprout className="w-6 h-6 text-green-800" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="font-bold text-green-900 text-base mb-1">Cultivation Guides</h3>
-                    <p className="text-green-800 text-sm">Growing tips</p>
+                    <h3 className="font-bold text-green-900 text-base mb-1">{t('home.cultivation_guides')}</h3>
+                    <p className="text-green-800 text-sm">{t('home.growing_tips')}</p>
                   </div>
                   <ChevronRight className="w-5 h-5 text-green-700" />
                 </div>
@@ -505,8 +505,8 @@ const Home = () => {
                     <Package className="w-6 h-6 text-green-800" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="font-bold text-green-900 text-base mb-1">My Orders</h3>
-                    <p className="text-green-800 text-sm">Track purchases</p>
+                    <h3 className="font-bold text-green-900 text-base mb-1">{t('home.my_orders')}</h3>
+                    <p className="text-green-800 text-sm">{t('home.track_purchases')}</p>
                   </div>
                   <ChevronRight className="w-5 h-5 text-green-700" />
                 </div>
@@ -520,8 +520,8 @@ const Home = () => {
                     <Package className="w-6 h-6 text-green-800" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="font-bold text-green-900 text-base mb-1">My Listings</h3>
-                    <p className="text-green-800 text-sm">Manage crop listings</p>
+                    <h3 className="font-bold text-green-900 text-base mb-1">{t('home.my_listings')}</h3>
+                    <p className="text-green-800 text-sm">{t('home.manage_crop_listings')}</p>
                   </div>
                   <ChevronRight className="w-5 h-5 text-green-700" />
                 </div>
@@ -536,7 +536,7 @@ const Home = () => {
         <div className="flex items-center justify-between px-4 py-3">
           <button className="flex flex-col items-center space-y-1 px-2 py-2 min-w-0">
             <HomeIcon className="w-7 h-7 text-agri-primary" />
-            <span className="text-sm font-semibold text-agri-primary">Home</span>
+            <span className="text-sm font-semibold text-agri-primary">{t('navigation.home')}</span>
           </button>
           
           <button 
@@ -544,7 +544,7 @@ const Home = () => {
             className="flex flex-col items-center space-y-1 px-2 py-2 transition-all duration-200 hover:bg-agri-light rounded-2xl min-w-0 active:scale-95"
           >
             <Camera className="w-7 h-7 text-agri-gray" />
-            <span className="text-sm text-agri-gray">Diagnose</span>
+            <span className="text-sm text-agri-gray">{t('navigation.diagnose')}</span>
           </button>
           
           <button 
@@ -552,7 +552,7 @@ const Home = () => {
             className="flex flex-col items-center space-y-1 px-2 py-2 transition-all duration-200 hover:bg-agri-light rounded-2xl min-w-0 active:scale-95"
           >
             <BookOpen className="w-7 h-7 text-agri-gray" />
-            <span className="text-sm text-agri-gray">Advisory</span>
+            <span className="text-sm text-agri-gray">{t('navigation.advisory')}</span>
           </button>
           
           <button 
@@ -560,7 +560,7 @@ const Home = () => {
             className="flex flex-col items-center space-y-1 px-2 py-2 transition-all duration-200 hover:bg-agri-light rounded-2xl min-w-0 active:scale-95"
           >
             <Store className="w-7 h-7 text-agri-gray" />
-            <span className="text-sm text-agri-gray">Shop</span>
+            <span className="text-sm text-agri-gray">{t('navigation.shop')}</span>
           </button>
           
           <button 
@@ -568,7 +568,7 @@ const Home = () => {
             className="flex flex-col items-center space-y-1 px-2 py-2 transition-all duration-200 hover:bg-agri-light rounded-2xl min-w-0 active:scale-95"
           >
             <MessageCircle className="w-7 h-7 text-agri-gray" />
-            <span className="text-sm text-agri-gray">Mitra</span>
+            <span className="text-sm text-agri-gray">{t('navigation.mitra')}</span>
           </button>
         </div>
       </div>

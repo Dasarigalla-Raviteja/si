@@ -7,7 +7,7 @@ const languages = [
 
 const LanguageSwitcher = () => {
   const { i18n } = useTranslation();
-  const selectedLanguage = i18n.language;
+  const selectedLanguage = i18n.resolvedLanguage || i18n.language;
 
   return (
     <div className="flex items-center bg-white/90 backdrop-blur-sm rounded-full p-1 shadow-sm border border-green-100">
