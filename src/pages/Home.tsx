@@ -430,7 +430,7 @@ const Home = () => {
               </CardContent>
             </Card>
             
-            <Card className="cursor-pointer active:scale-95 transition-transform rounded-2xl shadow-md border-0 bg-gradient-to-r from-green-100/90 to-lime-100/90 hover:shadow-lg backdrop-blur-sm" onClick={() => navigate('/shops')}>
+            <Card className="cursor-pointer active:scale-95 transition-transform rounded-2xl shadow-md border-0 bg-gradient-to-r from-green-100/90 to-emerald-100/90 hover:shadow-lg backdrop-blur-sm" onClick={() => navigate('/shops')}>
               <CardContent className="p-4">
                 <div className="flex items-center space-x-4">
                   <div className="w-12 h-12 bg-gradient-to-br from-green-200 to-green-300 rounded-xl flex items-center justify-center shadow-md">
@@ -500,7 +500,7 @@ const Home = () => {
               </CardContent>
             </Card>
             
-            <Card className="cursor-pointer active:scale-95 transition-transform rounded-2xl shadow-md border-0 bg-gradient-to-r from-green-100/90 to-lime-100/90 hover:shadow-lg backdrop-blur-sm" onClick={() => navigate('/sell')}>
+            <Card className="cursor-pointer active:scale-95 transition-transform rounded-2xl shadow-md border-0 bg-gradient-to-r from-green-100/90 to-emerald-100/90 hover:shadow-lg backdrop-blur-sm" onClick={() => navigate('/sell')}>
               <CardContent className="p-4">
                 <div className="flex items-center space-x-4">
                   <div className="w-12 h-12 bg-gradient-to-br from-green-200 to-green-300 rounded-xl flex items-center justify-center shadow-md">
