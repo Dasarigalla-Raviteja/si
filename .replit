@@ -40,7 +40,7 @@ author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "cd server && FLASK_ENV=production gunicorn --bind=0.0.0.0:8000 --workers=2 --timeout=120 plant_diagnosis_api:app"
+args = "cd backend && FLASK_ENV=development python plant_diagnosis_api.py"
 waitForPort = 8000
 
 [workflows.workflow.metadata]
@@ -53,10 +53,6 @@ externalPort = 80
 [[ports]]
 localPort = 8000
 externalPort = 8000
-
-[[ports]]
-localPort = 44289
-externalPort = 3000
 
 [deployment]
 deploymentTarget = "autoscale"
