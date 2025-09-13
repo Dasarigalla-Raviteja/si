@@ -380,7 +380,7 @@ const Home = () => {
               </div>
               <div className="space-y-3 mb-6">
                 {marketPrices.slice(0, 3).map((item, index) => (
-                  <div key={index} className="flex items-center justify-between p-4 bg-white/80 rounded-2xl shadow-sm border border-gray-100">
+                  <div key={index} className="flex items-center justify-between p-4 bg-white rounded-2xl shadow-sm border border-green-100">
                     <div className="flex-1 min-w-0">
                       <span className="font-bold text-gray-900 text-base sm:text-lg truncate block">{item.crop}</span>
                       <div className="text-sm text-gray-600 mt-0.5 flex items-center">
@@ -413,7 +413,7 @@ const Home = () => {
                   className="bg-green-500 hover:bg-green-600 text-white flex items-center space-x-3 justify-center h-12 text-base font-semibold rounded-2xl active:scale-95 transition-transform"
                 >
                   <BarChart3 className="w-5 h-5" />
-                  <span>See All Prices</span>
+                  <span>See Prices</span>
                 </Button>
                 <Button 
                   onClick={() => navigate('/sell')}
