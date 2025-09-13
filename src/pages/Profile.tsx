@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
   ArrowLeft, 
   Edit3, 
@@ -8,7 +9,7 @@ import {
   TrendingUp,
   Package,
   Trophy,
-  Eye,
+  Store,
   ShoppingCart,
   Cloud,
   Activity,
@@ -28,38 +29,80 @@ import {
   BadgeCheck,
   MessageCircle,
   Shield,
-  Gift
+  Gift,
+  FileText,
+  DollarSign
 } from 'lucide-react';
+import { dataService } from '../lib/dataService';
+import { marketData } from '../lib/marketData';
 
 const Profile = () => {
-  const [userData, setUserData] = useState({
-    name: 'Ravi Kumar',
-    location: 'Chengalpattu, Tamil Nadu',
-    phone: '+91 98765 43210',
-    joinedDate: '2023-06-15',
-    farmSize: '5.2 acres',
-    primaryCrops: ['Rice', 'Wheat', 'Sugarcane']
-  });
-
-  const [stats, setStats] = useState({
-    totalEarnings: 125000,
-    activeListings: 8,
-    successfulSales: 23,
-    totalViews: 1250,
-    avgRating: 4.8,
-    diagnosisCount: 15,
-    advisorySaved: 12,
-    level: 'Expert Farmer'
-  });
-
-  const [achievements] = useState([
-    { id: 1, title: 'First Sale', icon: Trophy, completed: true },
-    { id: 2, title: 'Top Seller', icon: Crown, completed: true },
-    { id: 3, title: 'Plant Expert', icon: Leaf, completed: true },
-    { id: 4, title: 'Super Star', icon: Star, completed: false }
-  ]);
-
+  const navigate = useNavigate();
+  const [userData, setUserData] = useState(null);
+  const [stats, setStats] = useState(null);
+  const [achievements, setAchievements] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
+
+  useEffect(() => {
+    const loadUserData = async () => {
+      setIsLoading(true);
+      try {
+        const user = dataService.getCurrentUser();
+        if (user) {
+          setUserData(user);
+          const userStats = dataService.calculateUserStats(user.id);
+          setStats(userStats);
+          
+          // Generate achievements based on real data
+          const generatedAchievements = [
+            { 
+              id: 1, 
+              title: 'First Sale', 
+              icon: Trophy, 
+              completed: userStats.successfulSales >= 1 
+            },
+            { 
+              id: 2, 
+              title: 'Top Seller', 
+              icon: Crown, 
+              completed: userStats.successfulSales >= 10 
+            },
+            { 
+              id: 3, 
+              title: 'Plant Expert', 
+              icon: Leaf, 
+              completed: userStats.diagnosisCount >= 5 
+            },
+            { 
+              id: 4, 
+              title: 'Super Star', 
+              icon: Star, 
+              completed: userStats.totalEarnings >= 50000 
+            }
+          ];
+          setAchievements(generatedAchievements);
+        }
+      } catch (error) {
+        console.error('Error loading user data:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadUserData();
+  }, []);
+
+  if (isLoading || !userData || !stats) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-8 h-8 border-2 border-green-500 border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
+          <p className="text-gray-600">Loading profile...</p>
+        </div>
+      </div>
+    );
+  }
 
   const StatCard = ({ title, value, icon: Icon, color = "bg-blue-500" }) => (
     <div className="bg-white rounded-xl p-4 border border-gray-200">
@@ -75,7 +118,7 @@ const Profile = () => {
     </div>
   );
 
-  const MenuItem = ({ icon: Icon, title, subtitle, onClick, rightElement }) => (
+  const MenuItem = ({ icon: Icon, title, subtitle, onClick, rightElement = null }) => (
     <button
       onClick={onClick}
       className="w-full flex items-center justify-between p-4 hover:bg-gray-50 rounded-xl transition-colors"
@@ -98,7 +141,10 @@ const Profile = () => {
       {/* Header */}
       <div className="bg-white border-b border-gray-200">
         <div className="px-4 py-4 flex items-center justify-between">
-          <button className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
+          <button 
+            onClick={() => navigate('/')}
+            className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center"
+          >
             <ArrowLeft className="w-5 h-5 text-gray-700" />
           </button>
           <h1 className="text-lg font-semibold text-gray-900">Profile</h1>
@@ -123,7 +169,10 @@ const Profile = () => {
             <div className="flex-1">
               <div className="flex items-center justify-between mb-2">
                 <h2 className="text-xl font-semibold text-gray-900">{userData.name}</h2>
-                <button className="bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center space-x-1">
+                <button 
+                  onClick={() => navigate('/profile/edit')}
+                  className="bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center space-x-1"
+                >
                   <Edit3 className="w-4 h-4" />
                   <span>Edit</span>
                 </button>
@@ -138,18 +187,13 @@ const Profile = () => {
                   <span>{userData.phone}</span>
                 </div>
               </div>
-              <div className="mt-3 flex items-center space-x-4 text-sm">
-                <div>
-                  <span className="font-semibold text-gray-900">4.8</span>
-                  <span className="text-gray-500"> rating</span>
-                </div>
+              <div className="mt-3 flex items-center space-x-6 text-sm">
                 <div>
                   <span className="font-semibold text-gray-900">{stats.successfulSales}</span>
                   <span className="text-gray-500"> sales</span>
                 </div>
                 <div>
-                  <span className="font-semibold text-gray-900">2Y</span>
-                  <span className="text-gray-500"> member</span>
+                  <span className="font-semibold text-gray-900">{stats.level}</span>
                 </div>
               </div>
             </div>
@@ -164,22 +208,38 @@ const Profile = () => {
             icon={Wallet}
             color="bg-green-500"
           />
+          <button 
+            onClick={() => navigate('/sell?tab=active')}
+            className="bg-white rounded-xl p-4 border border-gray-200 hover:bg-gray-50 transition-colors text-left"
+          >
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center">
+                <Package className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <div className="text-lg font-semibold text-gray-900">{stats.activeListings}</div>
+                <div className="text-sm text-gray-600">Active Listings</div>
+              </div>
+            </div>
+          </button>
+          <button 
+            onClick={() => navigate('/treatments')}
+            className="bg-white rounded-xl p-4 border border-gray-200 hover:bg-gray-50 transition-colors text-left"
+          >
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center">
+                <Activity className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <div className="text-lg font-semibold text-gray-900">{stats.diagnosisCount}</div>
+                <div className="text-sm text-gray-600">Active Treatments</div>
+              </div>
+            </div>
+          </button>
           <StatCard 
-            title="Active Listings" 
-            value={stats.activeListings} 
-            icon={Package}
-            color="bg-blue-500"
-          />
-          <StatCard 
-            title="Plant Diagnosis" 
-            value={stats.diagnosisCount} 
-            icon={Activity}
-            color="bg-orange-500"
-          />
-          <StatCard 
-            title="Total Views" 
-            value={(stats.totalViews/1000).toFixed(1) + "K"} 
-            icon={Eye}
+            title="Markets" 
+            value={marketData.length} 
+            icon={Store}
             color="bg-purple-500"
           />
         </div>
@@ -209,13 +269,14 @@ const Profile = () => {
           <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
           <div className="grid grid-cols-2 gap-4">
             {[
-              { title: 'Sell Crops', icon: ShoppingBag, color: 'bg-green-500' },
-              { title: 'Market Prices', icon: BarChart3, color: 'bg-blue-500' },
-              { title: 'Weather', icon: Cloud, color: 'bg-sky-500' },
-              { title: 'Diagnose Plant', icon: Activity, color: 'bg-orange-500' }
+              { title: 'Sell Crops', icon: ShoppingBag, color: 'bg-green-500', route: '/sell' },
+              { title: 'Market Prices', icon: BarChart3, color: 'bg-blue-500', route: '/market-prices' },
+              { title: 'Weather', icon: Cloud, color: 'bg-sky-500', route: '/weather' },
+              { title: 'Diagnose Plant', icon: Activity, color: 'bg-orange-500', route: '/diagnose' }
             ].map((action, index) => (
               <button
                 key={index}
+                onClick={() => navigate(action.route)}
                 className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors text-center"
               >
                 <div className={`w-10 h-10 ${action.color} rounded-lg flex items-center justify-center mx-auto mb-2`}>
@@ -230,22 +291,25 @@ const Profile = () => {
         {/* Menu Items */}
         <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
           <MenuItem
-            icon={ShoppingBag}
-            title="My Orders"
-            subtitle="View purchase history"
-            onClick={() => {}}
-          />
-          <MenuItem
             icon={Leaf}
-            title="Saved Advisory"
+            title="My Advisory"
             subtitle={`${stats.advisorySaved} tips saved`}
-            onClick={() => {}}
+            onClick={() => navigate('/advisory')}
+            rightElement={<ChevronRight className="w-5 h-5 text-gray-400" />}
           />
           <MenuItem
-            icon={Trophy}
+            icon={FileText}
             title="Sales Report"
-            subtitle="Track your performance"
-            onClick={() => {}}
+            subtitle={`₹${(stats.totalEarnings/1000).toFixed(0)}K earned`}
+            onClick={() => navigate('/reports')}
+            rightElement={<ChevronRight className="w-5 h-5 text-gray-400" />}
+          />
+          <MenuItem
+            icon={Package}
+            title="Sold Listings"
+            subtitle={`${stats.successfulSales} items sold`}
+            onClick={() => navigate('/sell?tab=sold')}
+            rightElement={<ChevronRight className="w-5 h-5 text-gray-400" />}
           />
         </div>
 
@@ -279,18 +343,21 @@ const Profile = () => {
             title="Help & Support"
             subtitle="Get assistance"
             onClick={() => {}}
+            rightElement={<ChevronRight className="w-5 h-5 text-gray-400" />}
           />
           <MenuItem
             icon={Shield}
             title="Privacy & Security"
             subtitle="Manage account security"
             onClick={() => {}}
+            rightElement={<ChevronRight className="w-5 h-5 text-gray-400" />}
           />
           <MenuItem
             icon={Settings}
             title="App Settings"
             subtitle="Preferences"
             onClick={() => {}}
+            rightElement={<ChevronRight className="w-5 h-5 text-gray-400" />}
           />
         </div>
 

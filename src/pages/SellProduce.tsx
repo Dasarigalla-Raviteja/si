@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { dataService, type Listing } from '@/lib/dataService';
 import {
   ArrowLeft,
@@ -26,6 +26,7 @@ import { marketData as realMarketData, Crop } from '@/lib/marketData';
 
 const SellProduce = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [selectedTab, setSelectedTab] = useState('create');
   const [showCreateListingDialog, setShowCreateListingDialog] = useState(false);
   const [selectedCrop, setSelectedCrop] = useState('');
@@ -57,6 +58,15 @@ const SellProduce = () => {
     const marketPrice = getMarketPrice();
     return parseFloat(quantity) * marketPrice;
   };
+
+  // Handle URL tab parameter
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const tabParam = urlParams.get('tab');
+    if (tabParam && ['create', 'active', 'sold'].includes(tabParam)) {
+      setSelectedTab(tabParam);
+    }
+  }, [location.search]);
 
   // Load real user data and listings
   useEffect(() => {
