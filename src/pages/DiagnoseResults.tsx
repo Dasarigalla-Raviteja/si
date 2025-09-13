@@ -196,10 +196,7 @@ const DiagnoseResults = () => {
         description: "Added to your active treatments with AI-powered guidance and fertilizer recommendations."
       });
       
-      // Navigate to treatments after a brief delay
-      setTimeout(() => {
-        navigate('/treatments');
-      }, 1500);
+      // No automatic navigation - user stays on results page
     }
   };
 

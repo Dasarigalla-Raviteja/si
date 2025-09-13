@@ -86,7 +86,7 @@ const PlantDiagnosis = () => {
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => navigate(-1)}
+            onClick={() => navigate('/home')}
             className="text-white hover:bg-white/20 rounded-full p-3"
           >
             <ArrowLeft className="w-5 h-5" />
