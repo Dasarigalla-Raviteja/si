@@ -199,9 +199,9 @@ const Home = () => {
   ];
 
   return (
-    <div className="mobile-container bg-gradient-to-br from-blue-50 via-green-50 to-yellow-50 min-h-screen">
+    <div className="mobile-container bg-gradient-to-br from-green-50 via-emerald-50 to-lime-50 min-h-screen">
       {/* Header */}
-      <div className="bg-gradient-to-r from-white to-blue-50 px-6 py-5 shadow-sm backdrop-blur-sm">
+      <div className="bg-gradient-to-r from-white to-green-50 px-6 py-5 shadow-sm backdrop-blur-sm">
         <div className="flex items-center space-x-4">
           <div className="w-12 h-12 bg-agri-primary rounded-2xl flex items-center justify-center">
             <Sprout className="w-7 h-7 text-white" />
@@ -322,17 +322,17 @@ const Home = () => {
         <div className="space-y-4">
           <h2 className="text-xl font-bold text-text-secondary">🧪 Soil & Fertilizer</h2>
           <div className="space-y-3">
-            <Card className="cursor-pointer active:scale-95 transition-transform rounded-2xl shadow-md border-0 bg-gradient-to-r from-amber-100/90 to-orange-100/90 hover:shadow-lg backdrop-blur-sm" onClick={() => navigate('/soil-health')}>
+            <Card className="cursor-pointer active:scale-95 transition-transform rounded-2xl shadow-md border-0 bg-gradient-to-r from-green-100/90 to-emerald-100/90 hover:shadow-lg backdrop-blur-sm" onClick={() => navigate('/soil-health')}>
               <CardContent className="p-4">
                 <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-amber-200 to-amber-300 rounded-xl flex items-center justify-center shadow-md">
-                    <TestTube className="w-6 h-6 text-amber-800" />
+                  <div className="w-12 h-12 bg-gradient-to-br from-green-200 to-green-300 rounded-xl flex items-center justify-center shadow-md">
+                    <TestTube className="w-6 h-6 text-green-800" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="font-bold text-amber-900 text-base mb-1">Soil Health</h3>
-                    <p className="text-amber-800 text-sm">Check nutrient levels</p>
+                    <h3 className="font-bold text-green-900 text-base mb-1">Soil Health</h3>
+                    <p className="text-green-800 text-sm">Check nutrient levels</p>
                   </div>
-                  <ChevronRight className="w-5 h-5 text-amber-700" />
+                  <ChevronRight className="w-5 h-5 text-green-700" />
                 </div>
               </CardContent>
             </Card>
@@ -359,7 +359,7 @@ const Home = () => {
           <h2 className="text-xl font-bold text-text-secondary">🛒 Marketplace</h2>
           
           {/* Market Prices Preview */}
-          <Card className="rounded-3xl shadow-lg border-0 bg-gradient-to-br from-blue-100/80 to-indigo-100/80 backdrop-blur-sm">
+          <Card className="rounded-3xl shadow-lg border-0 bg-gradient-to-br from-green-100/80 to-emerald-100/80 backdrop-blur-sm">
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-5">
                 <h3 className="font-bold text-text-secondary text-xl">Today's Mandi Prices</h3>
@@ -416,32 +416,32 @@ const Home = () => {
           
           {/* Additional Marketplace Cards */}
           <div className="space-y-3">
-            <Card className="cursor-pointer active:scale-95 transition-transform rounded-2xl shadow-md border-0 bg-gradient-to-r from-orange-100/90 to-red-100/90 hover:shadow-lg backdrop-blur-sm" onClick={() => navigate('/shop')}>
+            <Card className="cursor-pointer active:scale-95 transition-transform rounded-2xl shadow-md border-0 bg-gradient-to-r from-green-100/90 to-emerald-100/90 hover:shadow-lg backdrop-blur-sm" onClick={() => navigate('/shop')}>
               <CardContent className="p-4">
                 <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-orange-200 to-orange-300 rounded-xl flex items-center justify-center shadow-md">
-                    <ShoppingCart className="w-6 h-6 text-orange-800" />
+                  <div className="w-12 h-12 bg-gradient-to-br from-green-200 to-green-300 rounded-xl flex items-center justify-center shadow-md">
+                    <ShoppingCart className="w-6 h-6 text-green-800" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="font-bold text-orange-900 text-base mb-1">Order Fertilizers</h3>
-                    <p className="text-orange-800 text-sm">Shop nutrients</p>
+                    <h3 className="font-bold text-green-900 text-base mb-1">Order Fertilizers</h3>
+                    <p className="text-green-800 text-sm">Shop nutrients</p>
                   </div>
-                  <ChevronRight className="w-5 h-5 text-orange-700" />
+                  <ChevronRight className="w-5 h-5 text-green-700" />
                 </div>
               </CardContent>
             </Card>
             
-            <Card className="cursor-pointer active:scale-95 transition-transform rounded-2xl shadow-md border-0 bg-gradient-to-r from-purple-100/90 to-pink-100/90 hover:shadow-lg backdrop-blur-sm" onClick={() => navigate('/shops')}>
+            <Card className="cursor-pointer active:scale-95 transition-transform rounded-2xl shadow-md border-0 bg-gradient-to-r from-green-100/90 to-lime-100/90 hover:shadow-lg backdrop-blur-sm" onClick={() => navigate('/shops')}>
               <CardContent className="p-4">
                 <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-purple-200 to-purple-300 rounded-xl flex items-center justify-center shadow-md">
-                    <MapPin className="w-6 h-6 text-purple-800" />
+                  <div className="w-12 h-12 bg-gradient-to-br from-green-200 to-green-300 rounded-xl flex items-center justify-center shadow-md">
+                    <MapPin className="w-6 h-6 text-green-800" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="font-bold text-purple-900 text-base mb-1">Nearby Shops</h3>
-                    <p className="text-purple-800 text-sm">Find agri stores</p>
+                    <h3 className="font-bold text-green-900 text-base mb-1">Nearby Shops</h3>
+                    <p className="text-green-800 text-sm">Find agri stores</p>
                   </div>
-                  <ChevronRight className="w-5 h-5 text-purple-700" />
+                  <ChevronRight className="w-5 h-5 text-green-700" />
                 </div>
               </CardContent>
             </Card>
@@ -453,20 +453,20 @@ const Home = () => {
           <h2 className="text-xl font-bold text-text-secondary">🌱 My Farm</h2>
           
           <div className="space-y-3">
-            <Card className="cursor-pointer active:scale-95 transition-transform rounded-2xl shadow-md border-0 bg-gradient-to-r from-red-100/90 to-pink-100/90 hover:shadow-lg backdrop-blur-sm" onClick={() => navigate('/treatments')}>
+            <Card className="cursor-pointer active:scale-95 transition-transform rounded-2xl shadow-md border-0 bg-gradient-to-r from-green-100/90 to-emerald-100/90 hover:shadow-lg backdrop-blur-sm" onClick={() => navigate('/treatments')}>
               <CardContent className="p-4">
                 <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-red-200 to-red-300 rounded-xl flex items-center justify-center shadow-md relative">
-                    <Activity className="w-6 h-6 text-red-800" />
+                  <div className="w-12 h-12 bg-gradient-to-br from-green-200 to-green-300 rounded-xl flex items-center justify-center shadow-md relative">
+                    <Activity className="w-6 h-6 text-green-800" />
                     <div className="absolute -top-1 -right-1 w-5 h-5 bg-red-600 text-white text-xs font-bold rounded-full flex items-center justify-center shadow-sm">
                       2
                     </div>
                   </div>
                   <div className="flex-1">
-                    <h3 className="font-bold text-red-900 text-base mb-1">Active Treatments</h3>
-                    <p className="text-red-800 text-sm">2 ongoing sprays</p>
+                    <h3 className="font-bold text-green-900 text-base mb-1">Active Treatments</h3>
+                    <p className="text-green-800 text-sm">2 ongoing sprays</p>
                   </div>
-                  <ChevronRight className="w-5 h-5 text-red-700" />
+                  <ChevronRight className="w-5 h-5 text-green-700" />
                 </div>
               </CardContent>
             </Card>
@@ -486,22 +486,22 @@ const Home = () => {
               </CardContent>
             </Card>
             
-            <Card className="cursor-pointer active:scale-95 transition-transform rounded-2xl shadow-md border-0 bg-gradient-to-r from-cyan-100/90 to-blue-100/90 hover:shadow-lg backdrop-blur-sm" onClick={() => navigate('/orders')}>
+            <Card className="cursor-pointer active:scale-95 transition-transform rounded-2xl shadow-md border-0 bg-gradient-to-r from-green-100/90 to-emerald-100/90 hover:shadow-lg backdrop-blur-sm" onClick={() => navigate('/orders')}>
               <CardContent className="p-4">
                 <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-cyan-200 to-cyan-300 rounded-xl flex items-center justify-center shadow-md">
-                    <Package className="w-6 h-6 text-cyan-800" />
+                  <div className="w-12 h-12 bg-gradient-to-br from-green-200 to-green-300 rounded-xl flex items-center justify-center shadow-md">
+                    <Package className="w-6 h-6 text-green-800" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="font-bold text-cyan-900 text-base mb-1">My Orders</h3>
-                    <p className="text-cyan-800 text-sm">Track purchases</p>
+                    <h3 className="font-bold text-green-900 text-base mb-1">My Orders</h3>
+                    <p className="text-green-800 text-sm">Track purchases</p>
                   </div>
-                  <ChevronRight className="w-5 h-5 text-cyan-700" />
+                  <ChevronRight className="w-5 h-5 text-green-700" />
                 </div>
               </CardContent>
             </Card>
             
-            <Card className="cursor-pointer active:scale-95 transition-transform rounded-2xl shadow-md border-0 bg-gradient-to-r from-lime-100/90 to-green-100/90 hover:shadow-lg backdrop-blur-sm" onClick={() => navigate('/sell')}>
+            <Card className="cursor-pointer active:scale-95 transition-transform rounded-2xl shadow-md border-0 bg-gradient-to-r from-green-100/90 to-lime-100/90 hover:shadow-lg backdrop-blur-sm" onClick={() => navigate('/sell')}>
               <CardContent className="p-4">
                 <div className="flex items-center space-x-4">
                   <div className="w-12 h-12 bg-gradient-to-br from-lime-200 to-lime-300 rounded-xl flex items-center justify-center shadow-md">

@@ -54,10 +54,6 @@ externalPort = 80
 localPort = 8000
 externalPort = 8000
 
-[[ports]]
-localPort = 40943
-externalPort = 3000
-
 [deployment]
 deploymentTarget = "autoscale"
 run = ["gunicorn", "-w", "2", "-k", "gthread", "-b", "0.0.0.0:5000", "backend.plant_diagnosis_api:app"]
