@@ -19,14 +19,7 @@ const OrderSuccess = () => {
   const order = orderData?.order;
   const selectedAddress = orderData?.selectedAddress;
 
-  useEffect(() => {
-    // Auto redirect to orders page after 10 seconds
-    const timer = setTimeout(() => {
-      navigate('/orders');
-    }, 10000);
-
-    return () => clearTimeout(timer);
-  }, [navigate]);
+  // Removed auto-redirect - let user choose when to navigate
 
   return (
     <div className="mobile-container bg-green-50">
@@ -122,7 +115,7 @@ const OrderSuccess = () => {
             className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl"
           >
             <Package className="w-5 h-5 mr-2" />
-            Track Your Order
+            View My Orders
           </Button>
 
           <Button 
@@ -133,13 +126,6 @@ const OrderSuccess = () => {
             Continue Shopping
           </Button>
 
-          <button 
-            onClick={() => navigate('/orders')}
-            className="w-full flex items-center justify-center space-x-2 text-green-600 hover:text-green-700 py-2"
-          >
-            <Download className="w-4 h-4" />
-            <span className="text-sm">Download Invoice</span>
-          </button>
         </div>
 
         {/* Support Info */}
@@ -153,10 +139,6 @@ const OrderSuccess = () => {
           </div>
         </div>
 
-        {/* Auto Redirect Info */}
-        <p className="text-xs text-gray-500">
-          Redirecting to orders page in 10 seconds...
-        </p>
       </div>
     </div>
   );
