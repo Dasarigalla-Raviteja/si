@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const languages = [
   { code: 'en', name: 'English', flag: '🇬🇧', short: 'EN' },
@@ -6,7 +6,8 @@ const languages = [
 ];
 
 const LanguageSwitcher = () => {
-  const [selectedLanguage, setSelectedLanguage] = useState('en');
+  const { i18n } = useTranslation();
+  const selectedLanguage = i18n.language;
 
   return (
     <div className="flex items-center bg-white/90 backdrop-blur-sm rounded-full p-1 shadow-sm border border-green-100">
@@ -15,7 +16,7 @@ const LanguageSwitcher = () => {
         return (
           <button
             key={lang.code}
-            onClick={() => setSelectedLanguage(lang.code)}
+            onClick={() => i18n.changeLanguage(lang.code)}
             className={`
               px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ease-in-out flex items-center space-x-1
               ${

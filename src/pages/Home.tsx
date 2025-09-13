@@ -39,9 +39,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { weatherService, WeatherData } from '@/lib/weather';
 import { marketData } from '@/lib/marketData';
+import { useTranslation } from 'react-i18next';
 
 const Home = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [weatherLoading, setWeatherLoading] = useState(true);
   
@@ -52,9 +54,9 @@ const Home = () => {
   // Get time-based greeting
   const getGreeting = () => {
     const hour = new Date().getHours();
-    if (hour < 12) return '🌱 Good Morning';
-    if (hour < 17) return '🌞 Good Afternoon';
-    return '🌙 Good Evening';
+    if (hour < 12) return t('greeting.good_morning');
+    if (hour < 17) return t('greeting.good_afternoon');
+    return t('greeting.good_evening');
   };
 
   // Load weather data
@@ -211,7 +213,7 @@ const Home = () => {
               />
             </div>
             <div>
-              <h2 className="text-lg font-bold text-green-900 leading-tight">KisanMitra</h2>
+              <h2 className="text-lg font-bold text-green-900 leading-tight">{t('home.title')}</h2>
               <p className="text-sm font-medium text-green-700 leading-tight">
                 Good Morning, Raviteja Ji!
               </p>
