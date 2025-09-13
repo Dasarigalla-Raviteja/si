@@ -41,6 +41,7 @@ import MyFertilizerGuidance from "./pages/MyFertilizerGuidance";
 import CropGuideDetail from "./pages/CropGuideDetail";
 import MySavedCultivationGuides from "./pages/MySavedCultivationGuides";
 import Mitra from "./pages/Mitra";
+import Notifications from "./pages/Notifications";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -118,6 +119,7 @@ const App = () => {
           <Route path="/market-details/:marketId" element={<MarketDetails />} />
           <Route path="/my-fertilizer-guidance" element={<MyFertilizerGuidance />} />
           <Route path="/mitra" element={<Mitra />} />
+          <Route path="/notifications" element={<Notifications />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

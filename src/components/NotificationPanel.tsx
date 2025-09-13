@@ -1,5 +1,6 @@
 
 import { useState, useEffect } from 'react';
+import React from 'react';
 import { X, Bell, Package, TrendingUp, AlertCircle, CheckCircle, Clock, MessageCircle, Trash2, CheckCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -145,7 +146,7 @@ const NotificationPanel = ({ isOpen, onClose }: NotificationPanelProps) => {
               >
                 <div className="flex items-start space-x-3">
                   <div className={`w-10 h-10 ${notification.bgColor} rounded-full flex items-center justify-center flex-shrink-0`}>
-                    <notification.icon className={`w-5 h-5 ${notification.iconColor}`} />
+                    {React.createElement(notification.icon, { className: `w-5 h-5 ${notification.iconColor}` })}
                   </div>
                   
                   <div className="flex-1 min-w-0">

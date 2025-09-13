@@ -37,13 +37,11 @@ import {
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
-import NotificationPanel from '@/components/NotificationPanel';
 import { weatherService, WeatherData } from '@/lib/weather';
 import { marketData } from '@/lib/marketData';
 
 const Home = () => {
   const navigate = useNavigate();
-  const [showNotifications, setShowNotifications] = useState(false);
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [weatherLoading, setWeatherLoading] = useState(true);
   
@@ -229,7 +227,7 @@ const Home = () => {
             
             {/* Notification Bell */}
             <button 
-              onClick={() => setShowNotifications(true)}
+              onClick={() => navigate('/notifications')}
               className="relative p-2 hover:bg-green-100 rounded-full transition-colors flex items-center justify-center"
             >
               <Bell className="w-5 h-5 text-green-700" />
@@ -573,11 +571,6 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Notification Panel */}
-      <NotificationPanel 
-        isOpen={showNotifications} 
-        onClose={() => setShowNotifications(false)} 
-      />
     </div>
   );
 };
