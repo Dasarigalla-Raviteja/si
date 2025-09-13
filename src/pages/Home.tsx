@@ -229,7 +229,7 @@ const Home = () => {
 
           <button 
             onClick={() => navigate('/profile')}
-            className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white text-lg font-bold shadow-lg transition-all duration-200 active:scale-95 hover:shadow-xl"
+            className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-green-600 rounded-full flex items-center justify-center text-white text-lg font-bold shadow-lg transition-all duration-200 active:scale-95 hover:shadow-xl"
           >
             {userName.charAt(0).toUpperCase()}
           </button>
